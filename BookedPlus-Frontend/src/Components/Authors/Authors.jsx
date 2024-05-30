@@ -1,6 +1,6 @@
 
 const Authors = ({ data, editAuthor, deleteAuthor }) => (
-    <div className="card">
+    <div className="card text-black">
         <div className="card-header">Authors</div>
         <table className="table">
             <thead>
@@ -26,7 +26,49 @@ const Authors = ({ data, editAuthor, deleteAuthor }) => (
             </tbody>
         </table>
         {/* Add Pagination here */}
-        <button onClick={() => console.log('Navigate to Add Author Form')}>Add Author</button>
+        <button className="text-black mt-3 text-left" onClick={() => document.getElementById('my_modal_3').showModal()}>Add Author</button>
+        <dialog id="my_modal_3" className="modal text-black">
+            <div className="modal-box">
+                <form method="dialog">
+                    {/* if there is a button in form, it will close the modal */}
+                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                </form>
+                <div className="form-container">
+                    <h2 id="formTitle">Add Author</h2>
+                    <form id="authorForm">
+                        <div className="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required />
+                        </div>
+                        <div className="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required />
+                        </div>
+                        <div className="form-group">
+                            <label for="authorImage">Image</label>
+                            <input
+                                type="file"
+                                id="authorImage"
+                                name="authorImage"
+                                accept="image/*"
+                            />
+                            <img
+                                id="authorImagePreview"
+                                src="#"
+                                alt="Author Image"
+                                className="hidden"
+                            />
+                        </div>
+                        <div className="form-actions">
+                            <button type="submit" className="btn-save">Save</button>
+                            <button type="button" className="btn-cancel" onclick="cancelForm()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </dialog>
     </div>
 );
 
