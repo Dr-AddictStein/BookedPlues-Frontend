@@ -30,7 +30,6 @@ const Waitlists = ({ data, editWaitlist, deleteWaitlist }) => (
             </tbody>
         </table>
         {/* Add Pagination here */}
-        <button onClick={() => console.log('Navigate to Add Waitlist Form')}>Add Waitlist</button>
     </div>
 );
 

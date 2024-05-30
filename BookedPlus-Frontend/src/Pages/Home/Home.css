@@ -1,3 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+body {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.signature-line {
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0), #fff);
+    animation: drawLine 3s forwards;
+    margin-top: 8px;
+}
+
+@keyframes drawLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
 .waitlist-box {
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -30,6 +74,17 @@
     color: rgba(255, 255, 255, 0.7);
 }
 
+.waitlist-box input.invalid {
+    border: 2px solid red;
+    animation: shake 0.3s;
+    background-image: url("error-icon.png");
+    /* Error icon URL */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    /* Adjust padding to fit the icon */
+}
+
 .waitlist-box button {
     background: #3b82f6;
     /* Primary blue color */
@@ -44,14 +99,47 @@
     background: #2563eb;
 }
 
-.captcha-button:disabled {
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    padding: 1rem 0;
+}
+
+.thank-you img {
+    max-width: 80px;
+}
+
+.captcha-button {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+    /* Optional: to make it look more disabled */
+}
+
+/* Ensure hover state does not change */
+.captcha-button:hover {
     background-color: gray;
     cursor: not-allowed;
     opacity: 0.6;
 }
 
-.captcha-button:disabled:hover {
-    background-color: gray;
-    cursor: not-allowed;
-    opacity: 0.6;
+/* Shake animation */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-10px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(10px);
+    }
 }
