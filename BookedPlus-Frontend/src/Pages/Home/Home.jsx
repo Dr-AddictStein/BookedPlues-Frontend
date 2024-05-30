@@ -1,6 +1,25 @@
+import { useEffect, useRef, useState } from 'react';
 import './Home.css'
+import { Link } from 'react-router-dom';
+import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 
 const Home = () => {
+    const captchaRef = useRef(null);
+    const [disabled, setDisabled] = useState(true);
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, [])
+
+    const handleValidateCaptcha = () => {
+        const userCaptchaValue = captchaRef.current.value;
+        // console.log(userCaptchaValue)
+        if(validateCaptcha(userCaptchaValue)) {
+            setDisabled(false)
+        }
+        else if(!validateCaptcha(userCaptchaValue)){
+            setDisabled(true);
+        }
+    }
     return (
         <div className="container mx-auto text-center py-24 px-4">
             <h2 className="text-3xl font-bold mb-4 fade-in-up md:text-5xl">
@@ -27,18 +46,22 @@ const Home = () => {
                         placeholder="Phone Number"
                         className="w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
                     />
-                    <button type="submit" className="w-full py-2 transition duration-200">
+                    <div className='text-left'>
+                        <LoadCanvasTemplate />
+                        <input ref={captchaRef} onBlur={handleValidateCaptcha} type="text" name='captcha' placeholder='Type the above captcha' className="w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    </div>
+                    <button disabled={disabled} type="submit" className={`w-full py-2 transition duration-200 ${disabled ? 'captcha-button' : ''}`}>
                         Sign me up!
                     </button>
                 </form>
             </div>
             <div className="mt-8 fade-in-up">
-                <a
-                    href="blogs.html"
+                <Link
+                    to={"/blogs"}
                     className="bg-transparent border border-white text-white font-semibold py-2 px-4 rounded hover:bg-white hover:text-blue-700 transition duration-200"
                 >
                     Learn About Online Catering
-                </a>
+                </Link>
             </div>
         </div>
     );

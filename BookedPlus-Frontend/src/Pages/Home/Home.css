@@ -43,3 +43,15 @@
 .waitlist-box button:hover {
     background: #2563eb;
 }
+
+.captcha-button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.captcha-button:disabled:hover {
+    background-color: gray;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
