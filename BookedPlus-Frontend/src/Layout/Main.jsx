@@ -4,7 +4,7 @@ import Footer from "../Components/Footer/Footer";
 
 const Main = () => {
     const location = useLocation();
-    const shouldRenderNavbarAndFooter = !['/login', '/signup'].includes(location.pathname);
+    const shouldRenderNavbarAndFooter = !['/dashboard'].includes(location.pathname);
     return (
         <div>
             {shouldRenderNavbarAndFooter && <Navbar />}
