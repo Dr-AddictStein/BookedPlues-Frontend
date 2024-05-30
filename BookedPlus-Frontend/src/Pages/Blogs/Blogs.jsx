@@ -8,7 +8,7 @@ import './blog.css'
 
 const BlogCard = ({ imgSrc, title, description, link }) => (
     <div className="blog-card overflow-hidden transition transform">
-        <img src={imgSrc} alt={title} className="w-full h-48 object-cover" />
+        <img src={imgSrc} alt={title} className="w-full h-48 object-cover rounded-none" />
         <div className="p-4">
             <h3 className="text-lg font-bold mb-2">{title}</h3>
             <p className="text-gray-300 text-xs">{description}</p>
@@ -114,15 +114,6 @@ const Blogs = () => {
                     </main>
                 </div>
             </section>
-            <footer className="text-center p-4 mt-auto">
-                <a
-                    href="index.html"
-                    className="text-white font-thin text-base hover:text-blue-600 transition duration-200"
-                >
-                    Powered By Bookedplus
-                </a>
-                <div className="w-full h-[1px] bg-gradient-to-r from-transparent to-white mt-2"></div>
-            </footer>
         </>
     );
 };
