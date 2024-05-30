@@ -22,7 +22,7 @@ const BlogCard = ({ imgSrc, title, description, link }) => (
 const Blogs = () => {
     return (
         <>
-            <section className='max-w-7xl mx-auto'>
+            <section className='mx-auto'>
                 <div className="text-white min-h-screen flex flex-col">
                     <main className="container mx-auto text-center py-16 px-4">
                         <h1 className="text-4xl font-bold mb-8 fade-in-up">Online Catering Insights</h1>
