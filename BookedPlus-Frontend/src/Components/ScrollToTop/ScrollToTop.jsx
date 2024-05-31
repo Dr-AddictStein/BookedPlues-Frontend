@@ -2,15 +2,21 @@ import { useState, useEffect } from "react";
 
 const ScrollToTop = () => {
     const [btnVisibility, setBtnVisibility] = useState('hidden');
+    const [strokeOffset, setStrokeOffset] = useState(100);
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 20) {
+            const scrolled = window.scrollY;
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolledPercentage = (scrolled / totalHeight) * 100;
+
+            if (scrolled > 20) {
                 setBtnVisibility('block');
-            } 
-            else {
+            } else {
                 setBtnVisibility('hidden');
             }
+
+            setStrokeOffset(100 - scrolledPercentage);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -37,7 +43,16 @@ const ScrollToTop = () => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                <circle cx="12" cy="12" r="10" stroke="white" />
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeDasharray="100"
+                    strokeDashoffset={strokeOffset}
+                    style={{ transition: 'stroke-dashoffset 0.25s ease' }}
+                />
                 <path
                     d="M12 8L12 16"
                     stroke="white"
