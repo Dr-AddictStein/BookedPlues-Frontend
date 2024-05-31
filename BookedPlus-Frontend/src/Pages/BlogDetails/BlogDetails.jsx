@@ -1,10 +1,40 @@
 import { Link } from "react-router-dom";
 import './BlogDetails.css'
+import { useEffect, useState } from "react";
 
 const BlogDetails = () => {
+    const [scrollTopBtnVisible, setScrollTopBtnVisible] = useState(false);
+    const [scrolled, setScrolled] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolledPercentage = (winScroll / height) * 100;
+
+            if (winScroll > 20) {
+                setScrollTopBtnVisible(true);
+            } else {
+                setScrollTopBtnVisible(false);
+            }
+
+            setScrolled(100 - scrolledPercentage);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    // const scrollToTop = () => {
+    //     window.scrollTo({ top: 0, behavior: "smooth" });
+    // };
+
     return (
-        <main className="container mx-auto py-16 px-4">
-            <article className="max-w-3xl mx-auto content-bg fade-in-up text-gray-900">
+        <div className="container mx-auto py-16 px-4">
+            <div className="max-w-3xl mx-auto content-bg fade-in-up text-gray-900">
                 <header className="mb-6 text-center">
                     <h1 className="responsive-heading font-bold mb-4 text-white">
                         Reducing No-Shows and Cancellations with Online Reservations
@@ -161,8 +191,8 @@ const BlogDetails = () => {
                         Join the Waitlist
                     </Link>
                 </div>
-            </article>
-        </main>
+            </div>
+        </div>
     );
 };
 
