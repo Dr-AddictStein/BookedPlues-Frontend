@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import './BlogDetails.css'
 import { useEffect, useState } from "react";
+import image from '../../assets/images/7.jpeg'
 
 const BlogDetails = () => {
     const [scrollTopBtnVisible, setScrollTopBtnVisible] = useState(false);
@@ -42,13 +43,13 @@ const BlogDetails = () => {
                     <div className="flex flex-col items-center mb-4">
                         <p className="mb-2 text-white">Listen or read the blog:</p>
                         <audio controls className="audio-player">
-                            <source src="path/to/audio-file.mp3" type="audio/mp3" />
+                            <source src="./Joy Bangla Jitbe Abar Nouka - SundayHits.mp3" type="audio/mp3" />
                             Your browser does not support the audio element.
                         </audio>
                     </div>
                     <div className="flex items-center justify-center mb-4">
                         <img
-                            src="./7.jpeg"
+                            src={image}
                             alt="Author Image"
                             className="w-16 h-16 rounded-full mr-4"
                         />
@@ -69,7 +70,7 @@ const BlogDetails = () => {
 
                     <div className="relative my-6">
                         <img
-                            src="./1.jpeg"
+                            src={image}
                             alt="Example Image 1"
                             className="w-full h-64 object-cover rounded-lg shadow-lg"
                         />
@@ -91,7 +92,7 @@ const BlogDetails = () => {
 
                     <div className="relative my-6">
                         <img
-                            src="./3.jpeg"
+                            src={image}
                             alt="Example Image 2"
                             className="w-full h-64 object-cover rounded-lg shadow-lg"
                         />
@@ -133,7 +134,7 @@ const BlogDetails = () => {
 
                     <div className="relative my-6">
                         <img
-                            src="./5.jpeg"
+                            src={image}
                             alt="Example Image 3"
                             className="w-full h-64 object-cover rounded-lg shadow-lg"
                         />
