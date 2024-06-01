@@ -3,7 +3,9 @@ import JoditEditor from "jodit-react";
 import { FiPlusCircle } from "react-icons/fi";
 import './custom.css';
 
+const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const AddBlog = () => {
+    const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_hosting_token}`;
     const editor1 = useRef(null);
     const [authors, setAuthors] = useState([]);
     const [sections, setSections] = useState([]);
@@ -30,37 +32,70 @@ const AddBlog = () => {
         editorRefs.current.push(React.createRef());
     };
 
-    const createBlog = (e) => {
+    const uploadImage = (file) => {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        return fetch(img_hosting_url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Image upload failed');
+                }
+                return res.json();
+            })
+            .then(imgResponse => {
+                return imgResponse.data.display_url;
+            })
+            .catch(error => {
+                console.error('Image upload error:', error);
+                return null;
+            });
+    };
+
+    const createBlog = async (e) => {
         e.preventDefault();
         const form = e.target;
-        const thumb = form.thumb.files[0];
+        const thumbFile = form.thumb.files[0];
         const thumbhead = form.thumbhead.value;
         const thumbdesc = editor1.current.value;
         const headline = form.headline.value;
         const thumbaudio = form.thumbaudio.files[0];
         const author = form.author.value;
 
-        // Collecting section data
-        const body = sections.map((section, index) => {
+        const thumbImageUrl = await uploadImage(thumbFile);
+        const thumbaudioUrl = thumbaudio ? await uploadImage(thumbaudio) : null;
+
+        // Collecting section data with image upload
+        const body = await Promise.all(sections.map(async (section, index) => {
+            const imageFile = form[`image-${section.id}`].files[0];
+            const imageUrl = await uploadImage(imageFile);
+            const sectionHeader = form[`sectionHeader-${section.id}`].value;
+            const desc = editorRefs.current[index].current.value;
+
             return {
-                image: form[`image-${section.id}`].files[0],
-                sectionHeader: form[`sectionHeader-${section.id}`].value,
-                desc: editorRefs.current[index].current.value,
+                image: imageUrl,
+                sectionHeader,
+                desc
             };
-        });
+        }));
 
         const newBlog = {
-            thumb,
+            thumb: thumbImageUrl,
             thumbhead,
             thumbdesc,
             headline,
-            thumbaudio,
+            thumbaudio: thumbaudioUrl,
             author,
             body
         };
 
         console.log(newBlog);
-    }
+
+        // Make your API call here to save the newBlog data
+    };
 
     return (
         <div className="">
