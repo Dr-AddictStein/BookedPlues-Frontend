@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import JoditEditor from "jodit-react";
+import './custom.css'
 
 const AddBlog = () => {
     const editor1 = useRef(null);
     return (
-        <div className="bg-gray-200 p-10 m-10 rounded-md text-black">
+        <div className="bg-gray-200 p-10 m-10 rounded-md text-black fixing">
             <div className="">
                 <h2 id="formTitle" className='text-3xl font-semibold text-center pb-5'>Add Blog</h2>
                 <form id="authorForm">
