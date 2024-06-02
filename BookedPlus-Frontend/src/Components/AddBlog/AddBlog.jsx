@@ -170,7 +170,7 @@ const AddBlog = () => {
                     ))}
                 </div>
                 <div className="form-actions mx-10">
-                    <button type="submit" className="btn-save">Save</button>
+                    <button type="submit" className="btn-save">Submit Blog</button>
                 </div>
             </form>
         </div>

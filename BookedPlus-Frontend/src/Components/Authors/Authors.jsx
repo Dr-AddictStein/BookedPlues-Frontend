@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
+import axios from "axios";
 
+const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const Authors = () => {
+  const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_hosting_token}`;
   const [authorData, setauthorData] = useState([]);
   const fetchAuthors = async () => {
     const response = await fetch("http://localhost:4000/api/author/");
@@ -15,6 +18,29 @@ const Authors = () => {
   useEffect(() => {
     fetchAuthors();
   }, []);
+
+  const uploadImage = (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    return fetch(img_hosting_url, {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Image upload failed");
+        }
+        return res.json();
+      })
+      .then((imgResponse) => {
+        return imgResponse.data.display_url;
+      })
+      .catch((error) => {
+        console.error("Image upload error:", error);
+        return null;
+      });
+  };
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -35,55 +61,65 @@ const Authors = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const formData = new FormData(form);
 
-    console.error("Error:", formData);
+    const thumbFile = form.thumb.files[0];
+
+    const firstname = form.firstname.value;
+    const lastname = form.lastname.value;
+    const image = await uploadImage(thumbFile);
+
+    const toSend = { firstname, lastname, image };
+
+    console.error("XOXOXOXO:", toSend);
 
     try {
-      const response = await fetch("http://localhost:4000/api/author/", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await axios.post(
+        "http://localhost:4000/api/author/",
+        toSend
+      );
 
-      if (!response.ok) {
-        // If the response is not ok, it might be an HTML error page
-        const errorText = await response.text();
-        console.error("Error response:", errorText);
-        throw new Error("Failed to add author");
-      }
-
-      const data = await response.json();
-      console.log(data);
+      console.log("Form submitted successfully!", response.data);
       fetchAuthors();
+      e.target.reset();
     } catch (error) {
-      console.error("Error:", error);
+      if (error.response.status === 409) {
+        alert("Данные уже существуют");
+      } else {
+        console.log(error);
+      }
     }
   };
 
   const handleEdit = async (e, _id) => {
     e.preventDefault();
-
     const form = e.target;
+
+    const thumbFile = form.thumb.files[0];
 
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
-    const image = form.authorImage.value;
+    const image = await uploadImage(thumbFile);
 
     const toSend = { firstname, lastname, image };
-    console.log("SOSOSSSS", toSend);
 
-    fetch(`http://localhost:4000/api/author/${_id}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(toSend),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        fetchAuthors();
-      });
+    console.error("XOXOXOXO:", toSend);
+
+    try {
+      const response = await axios.patch(
+        "http://localhost:4000/api/author/" + _id,
+        toSend
+      );
+
+      console.log("Form submitted successfully!", response.data);
+      fetchAuthors();
+      e.target.reset();
+    } catch (error) {
+      if (error.response.status === 409) {
+        alert("Данные уже существуют");
+      } else {
+        console.log(error);
+      }
+    }
   };
   return (
     <div className="card text-black">
@@ -103,7 +139,7 @@ const Authors = () => {
             return (
               <tr key={u._id}>
                 <td>
-                  <img src="" alt="Author" />
+                  <img src={u.image} alt="Author" />
                 </td>
                 <td>{u.firstname}</td>
                 <td>{u.lastname}</td>
@@ -157,18 +193,11 @@ const Authors = () => {
                                 placeholder="lastname"
                                 className="block w-full mt-1 mb-7 rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white text-black  "
                               />
-                              <label>Image</label>
+                              <label>image</label>
                               <input
                                 type="file"
-                                id="authorImage"
-                                name="authorImage"
-                                accept="image/*"
-                              />
-                              <img
-                                id="authorImagePreview"
-                                src="#"
-                                alt="Author Image"
-                                className="hidden"
+                                name="thumb"
+                                className="file-input file-input-bordered w-full "
                               />
                             </div>
                           </div>
@@ -241,13 +270,14 @@ const Authors = () => {
                     placeholder="lastname"
                     className="block w-full mt-1 mb-7 rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white text-black  "
                   />
-                  <label>Image</label>
+
+                  <label>image</label>
                   <input
                     type="file"
-                    id="authorImage"
-                    name="authorImage"
-                    accept="image/*"
+                    name="thumb"
+                    className="file-input file-input-bordered w-full "
                   />
+
                   <img
                     id="authorImagePreview"
                     src="#"
