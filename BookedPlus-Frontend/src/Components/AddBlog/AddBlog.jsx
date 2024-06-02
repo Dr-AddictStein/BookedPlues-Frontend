@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
 import { FiPlusCircle } from "react-icons/fi";
 import './custom.css';
+import axios from "axios";
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const AddBlog = () => {
@@ -55,6 +56,14 @@ const AddBlog = () => {
             });
     };
 
+    function getAuthor(author){
+        for(let i=0;i<authors.length;i++){
+            if(authors[i].firstname+' '+authors[i].lastname===author){
+                return authors[i];
+            }
+        }
+    }
+
     const createBlog = async (e) => {
         e.preventDefault();
         const form = e.target;
@@ -83,18 +92,33 @@ const AddBlog = () => {
         }));
 
         const newBlog = {
-            thumb: thumbImageUrl,
-            thumbhead,
-            thumbdesc,
+            thumbnail: thumbImageUrl,
+            thumbnailheadline:thumbhead,
+            thumbnaildesc:thumbdesc,
             headline,
-            thumbaudio: thumbaudioUrl,
-            author,
+            audio: thumbaudioUrl,
+            author:getAuthor(author),
             body
         };
 
         console.log(newBlog);
 
         // Make your API call here to save the newBlog data
+        try {
+            const response = await axios.post(
+              "http://localhost:4000/api/blog/",
+              newBlog
+            );
+      
+            console.log("Form submitted successfully!", response.data);
+            e.target.reset();
+          } catch (error) {
+            if (error.response.status === 409) {
+              alert("Данные уже существуют");
+            } else {
+              console.log(error);
+            }
+          }
     };
 
     return (
