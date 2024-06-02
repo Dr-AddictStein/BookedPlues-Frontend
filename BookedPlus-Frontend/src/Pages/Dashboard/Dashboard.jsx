@@ -25,7 +25,7 @@ const Dashboard = () => {
             <div className="content">
                 {currentSection === 'waitlists' && <Waitlists  />}
                 {currentSection === 'authors' && <Authors  />}
-                {currentSection === 'blogs' && <BlogPost data={blogData} editBlog={editBlog} deleteBlog={deleteBlog} />}
+                {currentSection === 'blogs' && <BlogPost  />}
             </div>
         </div>
     );
