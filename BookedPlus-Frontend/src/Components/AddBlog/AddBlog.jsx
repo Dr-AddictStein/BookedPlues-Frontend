@@ -88,7 +88,7 @@ const AddBlog = () => {
 
             return {
                 image: imageUrl,
-                sectionHeader,
+                header:sectionHeader,
                 desc
             };
         }));

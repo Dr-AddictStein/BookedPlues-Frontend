@@ -54,7 +54,7 @@ const BlogPost = () => {
                 </td>
                 <td>{u.headline}</td>
                 <td>{u.author.firstname + ' ' + u.author.lastname}</td>
-                <td>{moment(u.createdAt).format("MMMM DD, YYYY h:mm:ss A z")}</td>
+                <td>{moment(u.createdAt).format("MMMM DD, YYYY")}</td>
                 <td>
                   {/* <Link to={"/updateblog"}>
                     <button className="btn-edit">Edit</button>
