@@ -114,7 +114,7 @@ const BlogDetails = () => {
                   {u.header}
                 </h2>
                 <div className=" my-6">
-                  <div className=" bg-black bg-opacity-50 text-white p-2 rounded-b-lg">
+                  <div className="  bg-opacity-50 text-white p-2 rounded-b-lg">
                     <p className="text-sm">
                       {u.desc.split(">")[1]?.split("<")[0]}
                     </p>

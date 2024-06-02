@@ -84,7 +84,7 @@ const Waitlists = () => {
                 <td>{u.email}</td>
                 <td>{u.phone}</td>
                 <td>
-                  {moment(u.createdAt).format("MMMM DD, YYYY h:mm:ss A z")}
+                  {moment(u.createdAt).format("MMMM DD, YYYY")}
                 </td>
                 <td>
                   <button
@@ -183,7 +183,7 @@ const Waitlists = () => {
                     </div>
                   </dialog>
                   <button
-                    className="btn-delete"
+                    className="btn-delete ml-3"
                     value={u._id}
                     onClick={handleDelete}
                   >

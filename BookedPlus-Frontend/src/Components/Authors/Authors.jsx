@@ -218,7 +218,7 @@ const Authors = () => {
                     </div>
                   </dialog>
                   <button
-                    className="btn-delete"
+                    className="btn-delete ml-3"
                     value={u._id}
                     onClick={handleDelete}
                   >
