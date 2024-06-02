@@ -78,7 +78,6 @@ const Home = () => {
     setErrors(newErrors);
 
     if (valid) {
-      e.preventDefault();
       const firstname = formData.fullName.split(' ')[0];
       const lastname = formData.fullName.split(' ')[1];
       const email = formData.email;
@@ -93,7 +92,7 @@ const Home = () => {
         phone,
       };
 
-      console.log("&*&*",data)
+      console.log("&*&*", data)
       try {
         const response = await axios.post(
           "http://localhost:4000/api/user/",
@@ -131,9 +130,8 @@ const Home = () => {
               placeholder="Full Name"
               value={formData.fullName}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                errors.fullName ? "invalid" : ""
-              }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.fullName ? "invalid" : ""
+                }`}
             />
             {/* {errors.fullName && <p className="error">{errors.fullName}</p>} */}
 
@@ -143,9 +141,8 @@ const Home = () => {
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                errors.email ? "invalid" : ""
-              }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.email ? "invalid" : ""
+                }`}
             />
             {/* {errors.email && <p className="error">{errors.email}</p>} */}
 
@@ -155,9 +152,8 @@ const Home = () => {
               placeholder="Phone Number"
               value={formData.phoneNumber}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                errors.phoneNumber ? "invalid" : ""
-              }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.phoneNumber ? "invalid" : ""
+                }`}
             />
             {/* {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>} */}
 
@@ -167,9 +163,8 @@ const Home = () => {
               placeholder="Restaurant / Catering Name"
               value={formData.restaurantName}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
-                errors.restaurantName ? "invalid" : ""
-              }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.restaurantName ? "invalid" : ""
+                }`}
             />
             {/* {errors.restaurantName && <p className="error">{errors.restaurantName}</p>} */}
 
@@ -191,18 +186,19 @@ const Home = () => {
             <button
               disabled={disabled}
               type="submit"
-              className={`w-full py-2 transition duration-200 ${
-                disabled ? "captcha-button" : ""
-              }`}
+              className={`w-full py-2 transition duration-200 ${disabled ? "captcha-button" : ""
+                }`}
             >
               Sign me up!
             </button>
           </form>
         </div>
       ) : (
-        <div id="thankYouMessage" className="fade-in-up">
-          <h3>Thank you for signing up!</h3>
-          <p>We will contact you soon.</p>
+        <div id="thankYouMessage" className="text-center">
+          <div className="w-full">
+            <img src="koala5.jpeg" alt="Koala" className="mx-auto rounded-none mb-4 w-1/3 h-1/3" />
+          </div>
+          <p className="text-lg">Woohoo! You're In! 🎉</p>
         </div>
       )}
 
