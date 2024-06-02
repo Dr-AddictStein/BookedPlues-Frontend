@@ -3,9 +3,11 @@ import JoditEditor from "jodit-react";
 import { FiPlusCircle } from "react-icons/fi";
 import './custom.css';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const AddBlog = () => {
+    const navigate = useNavigate();
     const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_hosting_token}`;
     const editor1 = useRef(null);
     const [authors, setAuthors] = useState([]);
@@ -112,6 +114,7 @@ const AddBlog = () => {
       
             console.log("Form submitted successfully!", response.data);
             e.target.reset();
+            navigate('/dashboard');
           } catch (error) {
             if (error.response.status === 409) {
               alert("Данные уже существуют");
@@ -176,7 +179,7 @@ const AddBlog = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>Header</label>
-                                    <input type="text" name={`sectionHeader-${section.id}`} required />
+                                    <input type="text" name={`sectionHeader-${section.id}`}  />
                                 </div>
                                 <div className="form-group">
                                     <label>Description</label>
