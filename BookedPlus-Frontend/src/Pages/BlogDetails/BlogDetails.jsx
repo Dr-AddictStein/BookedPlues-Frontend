@@ -28,13 +28,13 @@ const BlogDetails = () => {
     fetchBlogs();
   }, [blog_id]);
 
-//   useEffect(() => {
-//     console.log("sssBlog", blogs);
-//   }, [blogs]);
+  //   useEffect(() => {
+  //     console.log("sssBlog", blogs);
+  //   }, [blogs]);
 
-//   useEffect(() => {
-//     console.log("author ", author);
-//   }, [author]);
+  //   useEffect(() => {
+  //     console.log("author ", author);
+  //   }, [author]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,13 +74,16 @@ const BlogDetails = () => {
           </h1>
           <div className="flex flex-col items-center mb-4">
             <p className="mb-2 text-white">Listen or read the blog:</p>
-            <audio controls className="audio-player">
-              <source
-                src="./Joy Bangla Jitbe Abar Nouka - SundayHits.mp3"
-                type="audio/mp3"
-              />
-              Your browser does not support the audio element.
-            </audio>
+            {blogs.audio && (
+              <audio controls className="w-full">
+                <source
+                  src={`http://localhost:4000/${blogs.audio}`}
+                  type="audio/mpeg"
+                />
+                Your browser does not support the audio element.
+              </audio>
+            )}
+
           </div>
           <div className="flex items-center justify-center mb-4">
             <img

@@ -73,6 +73,23 @@ const AddBlog = () => {
         }
     }
 
+    const uploadAudio = async (audioFile) => {
+        const formData = new FormData();
+        formData.append('audio', audioFile);
+    
+        try {
+            const response = await axios.post('http://localhost:4000/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data.path; // Assuming the server returns the path of the uploaded file
+        } catch (error) {
+            console.error('Error uploading audio file:', error);
+            throw error;
+        }
+    };
+
     const createBlog = async (e) => {
         e.preventDefault();
         const form = e.target;
@@ -80,11 +97,11 @@ const AddBlog = () => {
         const thumbhead = form.thumbhead.value;
         const thumbdesc = editor1.current.value;
         const headline = form.headline.value;
-        const thumbaudio = form.thumbaudio.files[0];
+        const thumbaudio = form.audio.files[0];
         const author = form.author.value;
 
         const thumbImageUrl = await uploadImage(thumbFile);
-        const thumbaudioUrl = thumbaudio ? await uploadImage(thumbaudio) : null;
+        const thumbaudioUrl = thumbaudio ? await uploadAudio(thumbaudio) : null;
 
         // Collecting section data with image upload
         const body = await Promise.all(sections.map(async (section, index) => {
@@ -111,6 +128,7 @@ const AddBlog = () => {
         };
 
         console.log(newBlog);
+        console.log("AADUUUD",newBlog.audio.name)
 
         // Make your API call here to save the newBlog data
         try {
@@ -121,7 +139,7 @@ const AddBlog = () => {
       
             console.log("Form submitted successfully!", response.data);
             e.target.reset();
-            navigate('/dashboard');
+            navigate('/665bc136ca6d454ec0f5eed5');
           } catch (error) {
             if (error.response.status === 409) {
               alert("Данные уже существуют");
@@ -154,7 +172,7 @@ const AddBlog = () => {
                     </div>
                     <div className="form-group">
                         <label>Audio</label>
-                        <input type="file" name="thumbaudio" className="file-input file-input-bordered w-full max-w-xs" />
+                        <input type="file" name="audio" accept="audio/*" />
                     </div>
                     <div className="form-group">
                         <label>Author</label>
