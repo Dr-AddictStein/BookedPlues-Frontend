@@ -1,6 +1,7 @@
 import "./blog.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const BlogCard = ({ imgSrc, title, description, link }) => (
   <div className="blog-card overflow-hidden transition transform">
@@ -58,7 +59,7 @@ const Blogs = () => {
                 <BlogCard
                   imgSrc={u.thumbnail}
                   title={u.thumbnailheadline}
-                  description={u.thumbnaildesc.split(">")[1].split("<")[0]}
+                  description={ReactHtmlParser(u.thumbnaildesc)}
                   link={`/blogdetails/:${u._id}`}
                   key={u._id}
                 />

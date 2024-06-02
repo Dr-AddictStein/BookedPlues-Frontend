@@ -5,6 +5,7 @@ import './custom.css';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const AddBlog = () => {
@@ -108,7 +109,7 @@ const AddBlog = () => {
             const imageFile = form[`image-${section.id}`].files[0];
             const imageUrl = await uploadImage(imageFile);
             const sectionHeader = form[`sectionHeader-${section.id}`].value;
-            const desc = editorRefs.current[index].current.value;
+            const desc = ReactHtmlParser(editorRefs.current[index].current.value);
 
             return {
                 image: imageUrl,

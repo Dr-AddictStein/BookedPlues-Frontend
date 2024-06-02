@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import image from "../../assets/images/7.jpeg";
 import { useParams } from "react-router-dom";
 import moment from "moment";
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const BlogDetails = () => {
   const { blog_id } = useParams();
@@ -83,7 +84,6 @@ const BlogDetails = () => {
                 Your browser does not support the audio element.
               </audio>
             )}
-
           </div>
           <div className="flex items-center justify-center mb-4">
             <img
@@ -106,21 +106,23 @@ const BlogDetails = () => {
           {blogs.body?.map((u) => {
             return (
               <div key={u._id}>
-                <div className="my-6">
-                  <img
-                    src={u.image}
-                    alt="Example Image 1"
-                    className="w-full h-64 object-cover rounded-lg shadow-lg"
-                  />
-                </div>
-                <h2 className="font-bold text-2xl mt-6 mb-6 text-white">
-                  {u.header}
-                </h2>
+                {u.image && (
+                  <div className="my-6">
+                    <img
+                      src={u.image}
+                      alt="Example Image 1"
+                      className="w-full h-64 object-cover rounded-lg shadow-lg"
+                    />
+                  </div>
+                )}
+                {u.header && (
+                  <h2 className="font-bold text-2xl mt-6 mb-6 text-white">
+                    {u.header}
+                  </h2>
+                )}
                 <div className=" my-6">
-                  <div className="  bg-opacity-50 text-white p-2 rounded-b-lg">
-                    <p className="text-sm">
-                      {u.desc.split(">")[1]?.split("<")[0]}
-                    </p>
+                  <div className="  bg-opacity-50 text-white p-2 rounded-b-lg ">
+                    <p className="text-sm bg-transparent ">{ReactHtmlParser(u.desc)}</p>
                   </div>
                 </div>
               </div>
