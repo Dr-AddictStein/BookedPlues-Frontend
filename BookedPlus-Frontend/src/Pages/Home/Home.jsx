@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import "./Home.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {
-  loadCaptchaEnginge,
-  LoadCanvasTemplate,
-  validateCaptcha,
-} from "react-simple-captcha";
+import ReCAPTCHA from "react-google-recaptcha";
+
+// Ensure that RECAPTCHA_TOKEN is correctly imported
+const reCaptchaToken = import.meta.env.VITE_RECAPTCHA_TOKEN;
+console.log("🚀 ~ reCaptchaToken:", reCaptchaToken)
 
 const Home = () => {
   const captchaRef = useRef(null);
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -22,7 +23,7 @@ const Home = () => {
   const [showThankYouMessage, setShowThankYouMessage] = useState(false);
 
   useEffect(() => {
-    loadCaptchaEnginge(6);
+    console.log("ReCAPTCHA sitekey:", reCaptchaToken);
   }, []);
 
   const handleChange = (e) => {
@@ -38,15 +39,6 @@ const Home = () => {
   const validatePhoneNumber = (phoneNumber) => {
     const re = /^(\+?1\s?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/;
     return re.test(phoneNumber);
-  };
-
-  const handleValidateCaptcha = () => {
-    const userCaptchaValue = captchaRef.current.value;
-    if (validateCaptcha(userCaptchaValue)) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -78,6 +70,14 @@ const Home = () => {
     setErrors(newErrors);
 
     if (valid) {
+      setShowCaptcha(true);
+    }
+  };
+
+  const onReCAPTCHAChange = async (captchaValue) => {
+    if (captchaValue) {
+      setDisabled(false);
+
       const firstname = formData.fullName.split(' ')[0];
       const lastname = formData.fullName.split(' ')[1];
       const email = formData.email;
@@ -90,9 +90,9 @@ const Home = () => {
         email,
         restaurant,
         phone,
+        captcha: captchaValue,
       };
 
-      console.log("&*&*", data)
       try {
         const response = await axios.post(
           "http://localhost:4000/api/user/",
@@ -100,15 +100,14 @@ const Home = () => {
         );
 
         console.log("Form submitted successfully!", response.data);
-        e.target.reset();
+        setShowThankYouMessage(true);
       } catch (error) {
         if (error.response.status === 409) {
-          alert("Данные уже существуют");
+          alert("Data already exists");
         } else {
           console.log(error);
         }
       }
-      setShowThankYouMessage(true);
     }
   };
 
@@ -130,64 +129,43 @@ const Home = () => {
               placeholder="Full Name"
               value={formData.fullName}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.fullName ? "invalid" : ""
-                }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.fullName ? "invalid" : ""}`}
             />
-            {/* {errors.fullName && <p className="error">{errors.fullName}</p>} */}
-
             <input
               type="email"
               name="email"
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.email ? "invalid" : ""
-                }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.email ? "invalid" : ""}`}
             />
-            {/* {errors.email && <p className="error">{errors.email}</p>} */}
-
             <input
               type="tel"
               name="phoneNumber"
               placeholder="Phone Number"
               value={formData.phoneNumber}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.phoneNumber ? "invalid" : ""
-                }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.phoneNumber ? "invalid" : ""}`}
             />
-            {/* {errors.phoneNumber && <p className="error">{errors.phoneNumber}</p>} */}
-
             <input
               type="text"
               name="restaurantName"
               placeholder="Restaurant / Catering Name"
               value={formData.restaurantName}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.restaurantName ? "invalid" : ""
-                }`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.restaurantName ? "invalid" : ""}`}
             />
-            {/* {errors.restaurantName && <p className="error">{errors.restaurantName}</p>} */}
 
-            <div className="text-left">
-              <LoadCanvasTemplate />
-              <input
-                ref={captchaRef}
-                type="text"
-                name="captcha"
-                placeholder="Type the above captcha"
-                onBlur={(e) => {
-                  handleChange(e);
-                  handleValidateCaptcha();
-                }}
-                className="w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            {showCaptcha && (
+              <ReCAPTCHA
+                sitekey={reCaptchaToken}
+                onChange={onReCAPTCHAChange}
               />
-            </div>
+            )}
 
             <button
-              disabled={disabled}
               type="submit"
-              className={`w-full py-2 transition duration-200 ${disabled ? "captcha-button" : ""
-                }`}
+              className={`w-full py-2 transition duration-200 ${showCaptcha && disabled ? "captcha-button" : ""}`}
             >
               Sign me up!
             </button>
