@@ -43,28 +43,7 @@ const AddBlog = () => {
         editorRefs.current.push(React.createRef());
     };
 
-    const uploadImage = (file) => {
-        const formData = new FormData();
-        formData.append('image', file);
-
-        return fetch(img_hosting_url, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Image upload failed');
-                }
-                return res.json();
-            })
-            .then(imgResponse => {
-                return imgResponse.data.display_url;
-            })
-            .catch(error => {
-                console.error('Image upload error:', error);
-                return null;
-            });
-    };
+   
 
     function getAuthor(author){
         for(let i=0;i<authors.length;i++){
@@ -90,6 +69,22 @@ const AddBlog = () => {
             throw error;
         }
     };
+    const uploadImage = async (image) => {
+        const formData = new FormData();
+        formData.append('image', image);
+    
+        try {
+            const response = await axios.post('http://localhost:4000/uploadImage', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data.path; // Assuming the server returns the path of the uploaded file
+        } catch (error) {
+            console.error('Error uploading image file:', error);
+            throw error;
+        }
+    };
 
     const createBlog = async (e) => {
         e.preventDefault();
@@ -101,15 +96,15 @@ const AddBlog = () => {
         const thumbaudio = form.audio.files[0];
         const author = form.author.value;
 
-        const thumbImageUrl = await uploadImage(thumbFile);
-        const thumbaudioUrl = thumbaudio ? await uploadAudio(thumbaudio) : null;
+        const thumbImageUrl = thumbFile ? await uploadImage(thumbFile) : null;
+        const thumbaudioUrl = thumbaudio ? await uploadAudio(thumbaudio) : "null";
 
         // Collecting section data with image upload
         const body = await Promise.all(sections.map(async (section, index) => {
             const imageFile = form[`image-${section.id}`].files[0];
-            const imageUrl = await uploadImage(imageFile);
+            const imageUrl = imageFile ? await uploadImage(imageFile) : null;
             const sectionHeader = form[`sectionHeader-${section.id}`].value;
-            const desc = ReactHtmlParser(editorRefs.current[index].current.value);
+            const desc = editorRefs.current[index].current.value;
 
             return {
                 image: imageUrl,

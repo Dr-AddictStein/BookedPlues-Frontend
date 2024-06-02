@@ -90,7 +90,7 @@ const Home = () => {
         email,
         restaurant,
         phone,
-        captcha: captchaValue,
+        // captcha: captchaValue,
       };
 
       try {
@@ -157,15 +157,17 @@ const Home = () => {
             />
 
             {showCaptcha && (
-              <ReCAPTCHA
-                sitekey={reCaptchaToken}
-                onChange={onReCAPTCHAChange}
-              />
+              <div className="sm:ml-0 ml-[-38px] ">
+                <ReCAPTCHA
+                  sitekey={reCaptchaToken}
+                  onChange={onReCAPTCHAChange}
+                />
+              </div>
             )}
 
             <button
               type="submit"
-              className={`w-full py-2 transition duration-200 ${showCaptcha && disabled ? "captcha-button" : ""}`}
+              className={`w-full py-2 transition duration-200 ${showCaptcha && disabled ? "captcha-button mt-4" : ""}`}
             >
               Sign me up!
             </button>
@@ -174,7 +176,7 @@ const Home = () => {
       ) : (
         <div id="thankYouMessage" className="text-center">
           <div className="w-full">
-            <img src="koala5.jpeg" alt="Koala" className="mx-auto rounded-none mb-4 w-1/3 h-1/3" />
+            <img src="koala5.jpeg" alt="Koala" className="mx-auto rounded-none mb-4 w-full md:w-1/3 h-1/3" />
           </div>
           <p className="text-lg">Woohoo! You're In! 🎉</p>
         </div>

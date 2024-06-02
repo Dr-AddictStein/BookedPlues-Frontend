@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import image from "../../assets/images/7.jpeg";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser, {
+  processNodes,
+  convertNodeToElement,
+  htmlparser2,
+} from "react-html-parser";
 
 const BlogDetails = () => {
   const { blog_id } = useParams();
@@ -74,8 +78,8 @@ const BlogDetails = () => {
             {blogs.headline}
           </h1>
           <div className="flex flex-col items-center mb-4">
-            <p className="mb-2 text-white">Listen or read the blog:</p>
-            {blogs.audio && (
+            {(blogs.audio!=="null") && <p className="mb-2 text-white">Listen or read the blog:</p>}
+            {(blogs.audio!=="null") && (
               <audio controls className="w-full">
                 <source
                   src={`http://localhost:4000/${blogs.audio}`}
@@ -87,7 +91,7 @@ const BlogDetails = () => {
           </div>
           <div className="flex items-center justify-center mb-4">
             <img
-              src={author?.image}
+              src={`http://localhost:4000/${author?.image}`}
               alt="Author Image"
               className="w-16 h-16 rounded-full mr-4"
             />
@@ -109,21 +113,21 @@ const BlogDetails = () => {
                 {u.image && (
                   <div className="my-6">
                     <img
-                      src={u.image}
+                      src={`http://localhost:4000/${u.image}`}
                       alt="Example Image 1"
                       className="w-full h-64 object-cover rounded-lg shadow-lg"
                     />
                   </div>
                 )}
                 {u.header && (
-                  <h2 className="font-bold text-2xl mt-6 mb-6 text-white">
+                  <h2 className="font-bold text-2xl mt-6 mb-2 text-white">
                     {u.header}
                   </h2>
                 )}
-                <div className=" my-6">
-                  <div className="  bg-opacity-50 text-white p-2 rounded-b-lg ">
-                    <p className="text-sm bg-transparent ">{ReactHtmlParser(u.desc)}</p>
-                  </div>
+                <div className="  bg-opacity-50 text-white  rounded-b-lg ">
+                  <p className="text-sm bg-transparent text-[15px]" style={{ lineHeight: '1.75' }}>
+                    {ReactHtmlParser(u.desc)}
+                  </p>
                 </div>
               </div>
             );

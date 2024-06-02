@@ -50,7 +50,7 @@ footer {
   margin-top: 8px;
 }
 .responsive-heading {
-  font-size: 2rem;
+  font-size: 28px;
 }
 @media (min-width: 640px) {
   .responsive-heading {

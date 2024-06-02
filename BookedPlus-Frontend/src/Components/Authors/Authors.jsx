@@ -22,28 +22,7 @@ const Authors = () => {
     fetchAuthors();
   }, []);
 
-  const uploadImage = (file) => {
-    const formData = new FormData();
-    formData.append("image", file);
-
-    return fetch(img_hosting_url, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Image upload failed");
-        }
-        return res.json();
-      })
-      .then((imgResponse) => {
-        return imgResponse.data.display_url;
-      })
-      .catch((error) => {
-        console.error("Image upload error:", error);
-        return null;
-      });
-  };
+  
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -58,13 +37,31 @@ const Authors = () => {
     console.log(data);
   };
 
+  const uploadImage = async (image) => {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    try {
+        const response = await axios.post('http://localhost:4000/uploadImage', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data.path; // Assuming the server returns the path of the uploaded file
+    } catch (error) {
+        console.error('Error uploading image file:', error);
+        throw error;
+    }
+};
+
   const handleAdd = async (e) => {
     e.preventDefault();
     const form = e.target;
     const thumbFile = form.thumb.files[0];
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
-    const image = await uploadImage(thumbFile);
+    const imTemp=form.thumb.files[0];
+    const image = imTemp ? await uploadImage(imTemp) : null;
     const toSend = { firstname, lastname, image };
 
     console.error("XOXOXOXO:", toSend);
@@ -92,7 +89,8 @@ const Authors = () => {
     const thumbFile = form.thumb.files[0];
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
-    const image = await uploadImage(thumbFile);
+    const imTemp=form.thumb.files[0];
+    const image = imTemp ? await uploadImage(imTemp) : null;
     const toSend = { firstname, lastname, image };
 
     console.error("XOXOXOXO:", toSend);
@@ -139,7 +137,7 @@ const Authors = () => {
           {currentItems.map((u, index) => (
             <tr key={u._id}>
               <td>
-                <img src={u.image} alt="Author" />
+                <img src={`http://localhost:4000/${u.image}`} alt="Author" />
               </td>
               <td>{u.firstname}</td>
               <td>{u.lastname}</td>

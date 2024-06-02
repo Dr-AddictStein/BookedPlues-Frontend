@@ -61,10 +61,10 @@ const BlogPost = () => {
             return (
               <tr key={u._id}>
                 <td>
-                  <img src={u.thumbnail} alt="Blog" />
+                  <img src={`http://localhost:4000/${u.thumbnail}`} alt="Blog" />
                 </td>
                 <td>{u.headline}</td>
-                <td>{u.author.firstname + ' ' + u.author.lastname}</td>
+                <td>{u.author?.firstname + ' ' + u.author?.lastname}</td>
                 <td>{moment(u.createdAt).format("MMMM DD, YYYY")}</td>
                 <td>
                   <button className="btn-delete" value={u._id} onClick={handleDelete}>Delete</button>

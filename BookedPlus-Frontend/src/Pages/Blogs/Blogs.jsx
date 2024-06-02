@@ -57,7 +57,7 @@ const Blogs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
               {currentBlogs.map((u) => (
                 <BlogCard
-                  imgSrc={u.thumbnail}
+                  imgSrc={`http://localhost:4000/${u.thumbnail}`}
                   title={u.thumbnailheadline}
                   description={ReactHtmlParser(u.thumbnaildesc)}
                   link={`/blogdetails/:${u._id}`}
