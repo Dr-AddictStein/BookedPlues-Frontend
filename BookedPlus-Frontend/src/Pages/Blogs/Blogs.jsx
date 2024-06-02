@@ -1,9 +1,3 @@
-import blog1 from "../../assets/images/3.jpeg";
-import blog2 from "../../assets/images/5.jpeg";
-import blog3 from "../../assets/images/6.jpeg";
-import blog4 from "../../assets/images/7.jpeg";
-import blog5 from "../../assets/images/8.jpeg";
-import blog6 from "../../assets/images/6.jpeg";
 import "./blog.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -27,10 +21,11 @@ const BlogCard = ({ imgSrc, title, description, link }) => (
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 6;
 
   const fetchBlogs = async () => {
     const response = await fetch("http://localhost:4000/api/blog/");
-
     const data = await response.json();
     if (response.ok) {
       setBlogs(data);
@@ -42,6 +37,14 @@ const Blogs = () => {
     fetchBlogs();
   }, []);
 
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <>
       <section className="mx-auto">
@@ -51,62 +54,51 @@ const Blogs = () => {
               Online Catering Insights
             </h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
-              {blogs.map((u) => {
-                return (
-                  <BlogCard
-                    imgSrc={u.thumbnail}
-                    title={u.thumbnailheadline}
-                    description={u.thumbnaildesc.split('>')[1].split('<')[0]}
-                    link={"/blogdetails/:"+u._id}
-                    key={u._id}
-                  />
-                );
-              })}
-              
+              {currentBlogs.map((u) => (
+                <BlogCard
+                  imgSrc={u.thumbnail}
+                  title={u.thumbnailheadline}
+                  description={u.thumbnaildesc.split(">")[1].split("<")[0]}
+                  link={`/blogdetails/:${u._id}`}
+                  key={u._id}
+                />
+              ))}
             </div>
 
             <div className="mt-8 fade-in-up">
               <nav aria-label="Page navigation">
                 <ul className="inline-flex -space-x-px">
                   <li>
-                    <a
-                      href="#"
+                    <button
+                      onClick={() => paginate(currentPage - 1)}
+                      disabled={currentPage === 1}
                       className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
                     >
                       Previous
-                    </a>
+                    </button>
                   </li>
+                  {[...Array(totalPages)].map((_, index) => (
+                    <li key={index}>
+                      <button
+                        onClick={() => paginate(index + 1)}
+                        className={`px-3 py-2 leading-tight ${
+                          currentPage === index + 1
+                            ? "text-white bg-blue-600"
+                            : "text-gray-500 bg-white"
+                        } border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
                   <li>
-                    <a
-                      href="#"
-                      className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                    >
-                      1
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                    >
-                      2
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                    >
-                      3
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
+                    <button
+                      onClick={() => paginate(currentPage + 1)}
+                      disabled={currentPage === totalPages}
                       className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
                     >
                       Next
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </nav>
