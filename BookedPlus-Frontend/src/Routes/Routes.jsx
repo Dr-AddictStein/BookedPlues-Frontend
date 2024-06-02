@@ -6,6 +6,8 @@ import BlogDetails from "../Pages/BlogDetails/BlogDetails";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import AddBlog from "../Components/AddBlog/AddBlog";
 import UpdateBlog from "../Components/UpdateBlog/UpdateBlog";
+import PrivateRoute from "./privateRoutes";
+import Login from "../Pages/Login";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +36,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/665bc136ca6d454ec0f5eed5",
-        element: <Dashboard />,
+        element: <PrivateRoute element={<Dashboard />} />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },
