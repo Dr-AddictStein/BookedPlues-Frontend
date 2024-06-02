@@ -1,9 +1,6 @@
-import { useRef } from 'react';
-import JoditEditor from "jodit-react";
 import { Link } from 'react-router-dom';
 
 const BlogPost = () => {
-    const editor1 = useRef(null);
     return (
         <div className="card">
             <div className="card-header">Blog Posts</div>

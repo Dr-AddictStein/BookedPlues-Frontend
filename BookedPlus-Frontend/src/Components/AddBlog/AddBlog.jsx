@@ -1,30 +1,178 @@
-import { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
-import './custom.css'
+import { FiPlusCircle } from "react-icons/fi";
+import './custom.css';
 
+const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const AddBlog = () => {
+    const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${img_hosting_token}`;
     const editor1 = useRef(null);
+    const [authors, setAuthors] = useState([]);
+    const [sections, setSections] = useState([]);
+    const [hideIndex, setHideIndex] = useState(-1); // -1 means no button is hidden initially
+
+    // Array to hold refs for each editor in the sections
+    const editorRefs = useRef([]);
+
+    useEffect(() => {
+        fetch('http://localhost:4000/api/author/')
+            .then(res => res.json())
+            .then(data => {
+                setAuthors(data);
+                console.log(data);
+            })
+            .catch(error => console.log(error))
+    }, []);
+
+    const addSection = () => {
+        setSections([...sections, { id: sections.length }]);
+        setHideIndex(sections.length); // Hide the current button
+
+        // Create a new ref and add it to the array
+        editorRefs.current.push(React.createRef());
+    };
+
+    const uploadImage = (file) => {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        return fetch(img_hosting_url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Image upload failed');
+                }
+                return res.json();
+            })
+            .then(imgResponse => {
+                return imgResponse.data.display_url;
+            })
+            .catch(error => {
+                console.error('Image upload error:', error);
+                return null;
+            });
+    };
+
+    const createBlog = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const thumbFile = form.thumb.files[0];
+        const thumbhead = form.thumbhead.value;
+        const thumbdesc = editor1.current.value;
+        const headline = form.headline.value;
+        const thumbaudio = form.thumbaudio.files[0];
+        const author = form.author.value;
+
+        const thumbImageUrl = await uploadImage(thumbFile);
+        const thumbaudioUrl = thumbaudio ? await uploadImage(thumbaudio) : null;
+
+        // Collecting section data with image upload
+        const body = await Promise.all(sections.map(async (section, index) => {
+            const imageFile = form[`image-${section.id}`].files[0];
+            const imageUrl = await uploadImage(imageFile);
+            const sectionHeader = form[`sectionHeader-${section.id}`].value;
+            const desc = editorRefs.current[index].current.value;
+
+            return {
+                image: imageUrl,
+                sectionHeader,
+                desc
+            };
+        }));
+
+        const newBlog = {
+            thumb: thumbImageUrl,
+            thumbhead,
+            thumbdesc,
+            headline,
+            thumbaudio: thumbaudioUrl,
+            author,
+            body
+        };
+
+        console.log(newBlog);
+
+        // Make your API call here to save the newBlog data
+    };
+
     return (
-        <div className="bg-gray-200 p-10 m-10 rounded-md text-black fixing">
-            <div className="">
-                <h2 id="formTitle" className='text-3xl font-semibold text-center pb-5'>Add Blog</h2>
-                <form id="authorForm">
+        <div className="">
+            <h2 id="formTitle" className='text-3xl font-semibold text-center pb-5'>Add Blog</h2>
+            <form onSubmit={createBlog} id="authorForm">
+                <div className="bg-gray-200 p-10 m-10 rounded-md text-black fixing">
                     <div className="form-group">
-                        <label for="firstName">Blog Title</label>
-                        <input type="text" id="blogtitle" name="firstName" required />
+                        <label>Thumbnail</label>
+                        <input type="file" name="thumb" className="file-input file-input-bordered w-full max-w-xs" />
                     </div>
                     <div className="form-group">
-                    <label for="firstName">Blog Body</label>
-                        <JoditEditor name='blogBody' ref={editor1} required />
+                        <label>Thumbnail Head</label>
+                        <input type="text" name="thumbhead" required />
                     </div>
-                    <div className="form-actions">
-                        <button type="submit" className="btn-save">Save</button>
-                        <button type="button" className="btn-cancel" onclick="cancelForm()">
-                            Cancel
+                    <div className="form-group">
+                        <label>Thumbnail Description</label>
+                        <JoditEditor name='thumbdesc' ref={editor1} required />
+                    </div>
+                    <div className="form-group">
+                        <label>Headline</label>
+                        <input type="text" name="headline" required />
+                    </div>
+                    <div className="form-group">
+                        <label>Audio</label>
+                        <input type="file" name="thumbaudio" className="file-input file-input-bordered w-full max-w-xs" />
+                    </div>
+                    <div className="form-group">
+                        <label>Author</label>
+                        <select name="author">
+                            {
+                                authors.map(singleAuthor => (
+                                    <option key={singleAuthor._id}>
+                                        {singleAuthor.firstname + ' ' + singleAuthor.lastname}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div className="flex justify-center">
+                    {hideIndex === -1 && (
+                        <button type="button" onClick={addSection} className="flex items-center gap-1 text-xl bg-[#4299e1] text-white px-3 py-2 rounded">
+                            <FiPlusCircle /> Add Section
                         </button>
-                    </div>
-                </form>
-            </div>
+                    )}
+                </div>
+                <div id="destination-div">
+                    {sections.map((section, index) => (
+                        <div key={section.id}>
+                            <div className="bg-gray-200 p-10 m-10 rounded-md text-black fixing">
+                                <div className="form-group">
+                                    <label>Image</label>
+                                    <input type="file" name={`image-${section.id}`} className="file-input file-input-bordered w-full max-w-xs" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Header</label>
+                                    <input type="text" name={`sectionHeader-${section.id}`} required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Description</label>
+                                    <JoditEditor name={`desc-${section.id}`} ref={editorRefs.current[index]} required />
+                                </div>
+                            </div>
+                            <div className="flex justify-center my-3">
+                                {hideIndex === index && (
+                                    <button type="button" onClick={addSection} className="flex items-center gap-1 text-xl bg-[#4299e1] text-white px-3 py-2 rounded">
+                                        <FiPlusCircle /> Add Section
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="form-actions mx-10">
+                    <button type="submit" className="btn-save">Save</button>
+                </div>
+            </form>
         </div>
     );
 };
