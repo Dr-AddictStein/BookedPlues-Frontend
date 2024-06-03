@@ -10,7 +10,7 @@ const Authors = () => {
   const itemsPerPage = 5; // Number of items per page
 
   const fetchAuthors = async () => {
-    const response = await fetch("http://localhost:4000/api/author/");
+    const response = await fetch("http://194.238.17.44/api/author/");
     const data = await response.json();
     if (response.ok) {
       setauthorData(data);
@@ -27,7 +27,7 @@ const Authors = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:4000/api/author/" + e.target.value,
+      "http://194.238.17.44/api/author/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -42,7 +42,7 @@ const Authors = () => {
     formData.append('image', image);
 
     try {
-        const response = await axios.post('http://localhost:4000/uploadImage', formData, {
+        const response = await axios.post('http://194.238.17.44/uploadImage', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -68,7 +68,7 @@ const Authors = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/author/",
+        "http://194.238.17.44/api/author/",
         toSend
       );
       console.log("Form submitted successfully!", response.data);
@@ -97,7 +97,7 @@ const Authors = () => {
 
     try {
       const response = await axios.patch(
-        "http://localhost:4000/api/author/" + _id,
+        "http://194.238.17.44/api/author/" + _id,
         toSend
       );
       console.log("Form submitted successfully!", response.data);
@@ -137,7 +137,7 @@ const Authors = () => {
           {currentItems.map((u, index) => (
             <tr key={u._id}>
               <td>
-                <img src={`http://localhost:4000/${u.image}`} alt="Author" />
+                <img src={`http://194.238.17.44/${u.image}`} alt="Author" />
               </td>
               <td>{u.firstname}</td>
               <td>{u.lastname}</td>

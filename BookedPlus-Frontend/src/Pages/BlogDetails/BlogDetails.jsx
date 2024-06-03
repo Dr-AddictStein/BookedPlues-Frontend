@@ -21,7 +21,7 @@ const BlogDetails = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       const response = await fetch(
-        "http://localhost:4000/api/blog/" + blog_id?.split(":")[1]
+        "http://194.238.17.44/api/blog/" + blog_id?.split(":")[1]
       );
 
       const data = await response.json();
@@ -82,7 +82,7 @@ const BlogDetails = () => {
             {(blogs.audio!=="null") && (
               <audio controls className="w-full">
                 <source
-                  src={`http://localhost:4000/${blogs.audio}`}
+                  src={`http://194.238.17.44/${blogs.audio}`}
                   type="audio/mpeg"
                 />
                 Your browser does not support the audio element.
@@ -91,7 +91,7 @@ const BlogDetails = () => {
           </div>
           <div className="flex items-center justify-center mb-4">
             <img
-              src={`http://localhost:4000/${author?.image}`}
+              src={`http://194.238.17.44/${author?.image}`}
               alt="Author Image"
               className="w-16 h-16 rounded-full mr-4"
             />
@@ -113,7 +113,7 @@ const BlogDetails = () => {
                 {u.image && (
                   <div className="my-6">
                     <img
-                      src={`http://localhost:4000/${u.image}`}
+                      src={`http://194.238.17.44/${u.image}`}
                       alt="Example Image 1"
                       className="w-full h-64 object-cover rounded-lg shadow-lg"
                     />

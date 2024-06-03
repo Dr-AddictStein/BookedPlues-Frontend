@@ -95,7 +95,7 @@ const Home = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/user/",
+          "http://194.238.17.44/api/user/",
           data
         );
 

@@ -8,7 +8,7 @@ const BlogPost = () => {
   const itemsPerPage = 5; // Number of items per page
 
   const fetchBlogs = async () => {
-    const response = await fetch("http://localhost:4000/api/blog/");
+    const response = await fetch("http://194.238.17.44/api/blog/");
     const data = await response.json();
     if (response.ok) {
       setBlogData(data);
@@ -22,7 +22,7 @@ const BlogPost = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:4000/api/blog/" + e.target.value,
+      "http://194.238.17.44/api/blog/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -61,7 +61,7 @@ const BlogPost = () => {
             return (
               <tr key={u._id}>
                 <td>
-                  <img src={`http://localhost:4000/${u.thumbnail}`} alt="Blog" />
+                  <img src={`http://194.238.17.44/${u.thumbnail}`} alt="Blog" />
                 </td>
                 <td>{u.headline}</td>
                 <td>{u.author?.firstname + ' ' + u.author?.lastname}</td>

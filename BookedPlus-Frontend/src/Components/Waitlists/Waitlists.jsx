@@ -7,7 +7,7 @@ const Waitlists = () => {
   const itemsPerPage = 10; // Number of items per page
 
   const fetchUsers = async () => {
-    const response = await fetch("http://localhost:4000/api/user/");
+    const response = await fetch("http://194.238.17.44/api/user/");
     const data = await response.json();
     if (response.ok) {
       setWaitlistData(data);
@@ -21,7 +21,7 @@ const Waitlists = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:4000/api/user/" + e.target.value,
+      "http://194.238.17.44/api/user/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -41,7 +41,7 @@ const Waitlists = () => {
     const phone = form.phone.value;
     const toSend = { firstname, lastname, email, restaurant, phone };
 
-    fetch(`http://localhost:4000/api/user/${_id}`, {
+    fetch(`http://194.238.17.44/api/user/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

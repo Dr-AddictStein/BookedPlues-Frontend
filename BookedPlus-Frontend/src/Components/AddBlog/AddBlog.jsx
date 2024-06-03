@@ -26,7 +26,7 @@ const AddBlog = () => {
     const editorRefs = useRef([]);
 
     useEffect(() => {
-        fetch('http://localhost:4000/api/author/')
+        fetch('http://194.238.17.44/api/author/')
             .then(res => res.json())
             .then(data => {
                 setAuthors(data);
@@ -58,7 +58,7 @@ const AddBlog = () => {
         formData.append('audio', audioFile);
     
         try {
-            const response = await axios.post('http://localhost:4000/upload', formData, {
+            const response = await axios.post('http://194.238.17.44/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -74,7 +74,7 @@ const AddBlog = () => {
         formData.append('image', image);
     
         try {
-            const response = await axios.post('http://localhost:4000/uploadImage', formData, {
+            const response = await axios.post('http://194.238.17.44/uploadImage', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -129,7 +129,7 @@ const AddBlog = () => {
         // Make your API call here to save the newBlog data
         try {
             const response = await axios.post(
-              "http://localhost:4000/api/blog/",
+              "http://194.238.17.44/api/blog/",
               newBlog
             );
       

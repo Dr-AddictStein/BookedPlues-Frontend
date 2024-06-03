@@ -19,7 +19,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.patch(
-        "http://localhost:4000/api/admin/resetpassword",
+        "http://194.238.17.44/api/admin/resetpassword",
         data
       );
 

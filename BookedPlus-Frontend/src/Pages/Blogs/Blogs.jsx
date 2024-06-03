@@ -26,7 +26,7 @@ const Blogs = () => {
   const blogsPerPage = 6;
 
   const fetchBlogs = async () => {
-    const response = await fetch("http://localhost:4000/api/blog/");
+    const response = await fetch("http://194.238.17.44/api/blog/");
     const data = await response.json();
     if (response.ok) {
       setBlogs(data);
@@ -57,7 +57,7 @@ const Blogs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
               {currentBlogs.map((u) => (
                 <BlogCard
-                  imgSrc={`http://localhost:4000/${u.thumbnail}`}
+                  imgSrc={`http://194.238.17.44/${u.thumbnail}`}
                   title={u.thumbnailheadline}
                   description={ReactHtmlParser(u.thumbnaildesc)}
                   link={`/blogdetails/:${u._id}`}
