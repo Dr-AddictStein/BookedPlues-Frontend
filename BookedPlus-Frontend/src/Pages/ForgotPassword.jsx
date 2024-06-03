@@ -56,7 +56,7 @@ const ForgotPassword = () => {
           )}
           {mailSent && (
             <>
-              <div className="error text-center">A verification has been sent to your Email.</div>
+              <div className="error text-center">A verification mail has been sent to your Email.</div>
             </>
           )}
           <label className="my-4 input input-bordered flex items-center gap-2">
