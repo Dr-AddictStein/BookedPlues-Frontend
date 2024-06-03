@@ -1,32 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export const useSignup=()=>{
-    const [error,setError]=useState(null);
-    const {dispatch}=useAuthContext();
+export const useSignup = () => {
+  const navigate = useNavigate();
 
-    const signup=async(email,password)=>{
-        setError(null);
+  const { user } = useAuthContext();
 
-        const response=await fetch("http://localhost:4000/api/admin/signup",{
-            method:'POST',
-            headers:{'content-type':'application/json'},
-            body:JSON.stringify({email,password})
-        })
-
-        const json=await response.json();
-
-        if(!response.ok){
-            setError(json.error);
-        }
-        if(response.ok){
-            localStorage.setItem('admin',JSON.stringify(json));
-
-            dispatch({type:'LOGIN',payload:json})
-
-
-        }
+  useEffect(() => {
+    if (user) {
+      navigate("/665bc136ca6d454ec0f5eed5");
     }
+  });
+  const [error, setError] = useState(null);
+  const { dispatch } = useAuthContext();
 
-    return {signup,error};
-}
+  const signup = async (email, password) => {
+    setError(null);
+
+    const response = await fetch("http://localhost:4000/api/admin/signup", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error);
+    }
+    if (response.ok) {
+      localStorage.setItem("admin", JSON.stringify(json));
+
+      dispatch({ type: "LOGIN", payload: json });
+    }
+  };
+
+  return { signup, error };
+};

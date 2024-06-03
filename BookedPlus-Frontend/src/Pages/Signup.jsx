@@ -1,12 +1,20 @@
-
 import { useState } from "react";
 import { useSignup } from "../hooks/useSignup";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
+  const { user } = useAuthContext();
+
+  if (user) {
+    navigate("/665bc136ca6d454ec0f5eed5");
+  }
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
 
-  const {signup,error}=useSignup();
+  const { signup, error } = useSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +26,11 @@ const Signup = () => {
     <div className=" flex justify-center items-center h-[80vh]">
       <div className="w-1/2">
         <form action="" onSubmit={handleSubmit} className="g">
-
+            {error && (
+              <>
+                <div className="error text-center">{error}</div>
+              </>
+            )}
           <label className="my-4 input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +47,7 @@ const Signup = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
-              className="grow"
+              className="grow text-black"
               placeholder="Email"
             />
           </label>
@@ -57,18 +69,17 @@ const Signup = () => {
               onChange={(e) => {
                 setPasword(e.target.value);
               }}
-              className="grow"
+              className="grow text-black"
               value={password}
               placeholder="Password"
             />
           </label>
 
-          <button className="btn btn-primary bg-teal-600 text-white text-center w-full">Sign Up</button>
-          {error && <>
-            <div className="error">
-              {error}
-            </div>
-          </>}
+          <button className="btn btn-primary bg-teal-600 text-white text-center w-full">
+            Sign Up
+          </button>
+
+          <div className="mt-3 text-center">Already Signed Up.?. <Link to="/login" className="text-cyan-600 font-semibold">Login</Link> </div>
         </form>
       </div>
     </div>

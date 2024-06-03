@@ -8,6 +8,7 @@ import AddBlog from "../Components/AddBlog/AddBlog";
 import UpdateBlog from "../Components/UpdateBlog/UpdateBlog";
 import PrivateRoute from "./privateRoutes";
 import Login from "../Pages/Login";
+import Signup from "../Pages/Signup";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
       },
     ],
   },

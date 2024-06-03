@@ -1,38 +1,37 @@
-
-import { useState } from 'react'
-import { useLogin } from '../hooks/useLogin';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../hooks/useAuthContext';
-
+import { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Login = () => {
+  const navigate = useNavigate();
 
-    const navigate=useNavigate();
+  const { user } = useAuthContext();
 
-    const {user}=useAuthContext();
+  if (user) {
+    navigate("/665bc136ca6d454ec0f5eed5");
+  }
 
-    if(user){
-      navigate('/665bc136ca6d454ec0f5eed5')
-    }
+  const [email, setEmail] = useState("");
+  const [password, setPasword] = useState("");
 
+  const { login, error } = useLogin();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const [email,setEmail]=useState('');
-    const [password,setPasword]=useState('');
-
-    const {login,error}=useLogin();
-
-    const handleSubmit=async(e)=>{
-        e.preventDefault();
-
-        await login(email,password);
-    }
+    await login(email, password);
+  };
 
   return (
     <div className=" flex justify-center items-center h-[80vh]">
       <div className="w-1/2">
         <form action="" onSubmit={handleSubmit} className="g">
-
+          {error && (
+            <>
+              <div className="error text-center">{error}</div>
+            </>
+          )}
           <label className="my-4 input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -77,18 +76,15 @@ const Login = () => {
             />
           </label>
 
-          <button className="btn btn-primary bg-teal-600 text-white text-center w-full">Log In</button>
-          
-          {error && <>
-            <div className="error">
-              {error}
-            </div>
-          </>}
+          <button className="btn btn-primary bg-teal-600 text-white text-center w-full">
+            Log In
+          </button>
+
+          <div className="mt-3 text-center">Not Signed Up yet.?. <Link to="/signup" className="text-cyan-600 font-semibold">Sign Up</Link> </div>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-
-export default Login
+export default Login;
