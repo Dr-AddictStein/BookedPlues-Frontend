@@ -79,7 +79,7 @@ const Signup = () => {
             Sign Up
           </button>
 
-          <div className="mt-3 text-center">Already Signed Up.?. <Link to="/login" className="text-cyan-600 font-semibold">Login</Link> </div>
+          <div className="mt-3 text-center">Already Signed Up.?. <Link to="/login" className="text-cyan-600 font-semibold">Log In</Link> </div>
         </form>
       </div>
     </div>
