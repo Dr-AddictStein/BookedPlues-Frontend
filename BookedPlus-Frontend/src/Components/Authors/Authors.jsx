@@ -42,7 +42,7 @@ const Authors = () => {
     formData.append('image', image);
 
     try {
-        const response = await axios.post('http://194.238.17.44/proxy/uploadImage', formData, {
+        const response = await axios.post('http://194.238.17.44/uploadImage', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
