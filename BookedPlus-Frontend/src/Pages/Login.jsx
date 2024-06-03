@@ -75,8 +75,9 @@ const Login = () => {
               placeholder="Password"
             />
           </label>
+          <div className="mt-3 text-center"> <Link to="/forgotPassword" className="text-cyan-600 font-semibold">Forgot Password.?.</Link> </div>
 
-          <button className="btn btn-primary bg-teal-600 text-white text-center w-full">
+          <button className="btn btn-primary bg-teal-600 text-white text-center w-full mt-3">
             Log In
           </button>
 
