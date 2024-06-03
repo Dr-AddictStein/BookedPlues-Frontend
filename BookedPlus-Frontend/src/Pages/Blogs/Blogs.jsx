@@ -11,8 +11,8 @@ const BlogCard = ({ imgSrc, title, description, link }) => (
       className="w-full h-48 object-cover rounded-none"
     />
     <div className="p-4">
-      <h3 className="text-lg font-bold mb-2">{title}</h3>
-      <p className="text-gray-300 text-xs">{description}</p>
+      <h3 className="text-[19px] font-bold mb-2">{title}</h3>
+      <p className="text-gray-300 text-[16px]">{description}</p>
       <Link to={link} className="block mt-4 text-blue-400 hover:text-blue-500">
         Read More
       </Link>
