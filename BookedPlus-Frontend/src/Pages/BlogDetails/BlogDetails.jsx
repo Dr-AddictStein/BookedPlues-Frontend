@@ -1,14 +1,8 @@
-import { Link } from "react-router-dom";
-import "./BlogDetails.css";
-import { useEffect, useState } from "react";
-import image from "../../assets/images/7.jpeg";
-import { useParams } from "react-router-dom";
 import moment from "moment";
-import ReactHtmlParser, {
-  processNodes,
-  convertNodeToElement,
-  htmlparser2,
-} from "react-html-parser";
+import { useEffect, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
+import { Link, useParams } from "react-router-dom";
+import "./BlogDetails.css";
 
 const BlogDetails = () => {
   const { blog_id } = useParams();
@@ -23,7 +17,7 @@ const BlogDetails = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       const response = await fetch(
-        `http://194.238.17.44/api/blog/${blog_id?.split(":")[1]}`
+        `https://api.bookedplus.com/api/blog/${blog_id?.split(":")[1]}`
       );
 
       const data = await response.json();
@@ -32,7 +26,7 @@ const BlogDetails = () => {
         setAuthor(data.author);
         if (data.audio && data.audio !== "null") {
           const trimmedAudio = data.audio.slice(8);
-          setAudioSource(`http://194.238.17.44/uploads/${trimmedAudio}`);
+          setAudioSource(`https://api.bookedplus.com/uploads/${trimmedAudio}`);
         }
       }
     };
@@ -90,7 +84,7 @@ const BlogDetails = () => {
           )}
           <div className="flex items-center justify-center mb-4">
             <img
-              src={`http://194.238.17.44/${author?.image}`}
+              src={`https://api.bookedplus.com/${author?.image}`}
               alt="Author Image"
               className="w-16 h-16 rounded-full mr-4"
             />
@@ -112,7 +106,7 @@ const BlogDetails = () => {
                 {u.image && (
                   <div className="my-6">
                     <img
-                      src={`http://194.238.17.44/${u.image}`}
+                      src={`https://api.bookedplus.com/${u.image}`}
                       alt="Example Image 1"
                       className="w-full h-64 object-cover rounded-lg shadow-lg"
                     />
@@ -124,7 +118,10 @@ const BlogDetails = () => {
                   </h2>
                 )}
                 <div className="  bg-opacity-50 text-white  rounded-b-lg ">
-                  <p className="text-sm bg-transparent text-[17px]" style={{ lineHeight: '1.75' }}>
+                  <p
+                    className="text-sm bg-transparent text-[17px]"
+                    style={{ lineHeight: "1.75" }}
+                  >
                     {ReactHtmlParser(u.desc)}
                   </p>
                 </div>

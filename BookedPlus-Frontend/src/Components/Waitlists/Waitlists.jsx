@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import moment from "moment";
+import { useEffect, useState } from "react";
 
 const Waitlists = () => {
   const [waitlistData, setWaitlistData] = useState([]);
@@ -7,7 +7,7 @@ const Waitlists = () => {
   const itemsPerPage = 10; // Number of items per page
 
   const fetchUsers = async () => {
-    const response = await fetch("http://194.238.17.44/api/user/");
+    const response = await fetch("https://api.bookedplus.com/api/user/");
     const data = await response.json();
     if (response.ok) {
       setWaitlistData(data);
@@ -21,7 +21,7 @@ const Waitlists = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://194.238.17.44/api/user/" + e.target.value,
+      "https://api.bookedplus.com/api/user/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -41,7 +41,7 @@ const Waitlists = () => {
     const phone = form.phone.value;
     const toSend = { firstname, lastname, email, restaurant, phone };
 
-    fetch(`http://194.238.17.44/api/user/${_id}`, {
+    fetch(`https://api.bookedplus.com/api/user/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -107,7 +107,10 @@ const Waitlists = () => {
                       </form>
                       <div className="form-container">
                         <h2 id="formTitle">Edit Waitlist</h2>
-                        <form onSubmit={(e) => handleEdit(e, u._id)} className="">
+                        <form
+                          onSubmit={(e) => handleEdit(e, u._id)}
+                          className=""
+                        >
                           <div className="">
                             <div className="">
                               <label htmlFor="" className="">
@@ -171,7 +174,9 @@ const Waitlists = () => {
                             type="submit"
                             className="relative py-2.5 px-5 rounded-lg mt-6 bg-green-500 text-white w-full drop-shadow-lg"
                             onClick={() => {
-                              document.getElementById(`my_modal_${index}`).close();
+                              document
+                                .getElementById(`my_modal_${index}`)
+                                .close();
                             }}
                           >
                             Submit
@@ -180,7 +185,11 @@ const Waitlists = () => {
                       </div>
                     </div>
                   </dialog>
-                  <button className="btn-delete ml-3" value={u._id} onClick={handleDelete}>
+                  <button
+                    className="btn-delete ml-3"
+                    value={u._id}
+                    onClick={handleDelete}
+                  >
                     Delete
                   </button>
                 </td>

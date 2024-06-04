@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import "./Home.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
+import "./Home.css";
 
 // Ensure that RECAPTCHA_TOKEN is correctly imported
 const reCaptchaToken = import.meta.env.VITE_RECAPTCHA_TOKEN;
-console.log("🚀 ~ reCaptchaToken:", reCaptchaToken)
+console.log("🚀 ~ reCaptchaToken:", reCaptchaToken);
 
 const Home = () => {
   const captchaRef = useRef(null);
@@ -78,8 +78,8 @@ const Home = () => {
     if (captchaValue) {
       setDisabled(false);
 
-      const firstname = formData.fullName.split(' ')[0];
-      const lastname = formData.fullName.split(' ')[1];
+      const firstname = formData.fullName.split(" ")[0];
+      const lastname = formData.fullName.split(" ")[1];
       const email = formData.email;
       const restaurant = formData.restaurantName;
       const phone = formData.phoneNumber;
@@ -95,7 +95,7 @@ const Home = () => {
 
       try {
         const response = await axios.post(
-          "http://194.238.17.44/api/user/",
+          "https://api.bookedplus.com/api/user/",
           data
         );
 
@@ -129,7 +129,9 @@ const Home = () => {
               placeholder="Full Name"
               value={formData.fullName}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.fullName ? "invalid" : ""}`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                errors.fullName ? "invalid" : ""
+              }`}
             />
             <input
               type="email"
@@ -137,7 +139,9 @@ const Home = () => {
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.email ? "invalid" : ""}`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                errors.email ? "invalid" : ""
+              }`}
             />
             <input
               type="tel"
@@ -145,7 +149,9 @@ const Home = () => {
               placeholder="Phone Number"
               value={formData.phoneNumber}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.phoneNumber ? "invalid" : ""}`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                errors.phoneNumber ? "invalid" : ""
+              }`}
             />
             <input
               type="text"
@@ -153,7 +159,9 @@ const Home = () => {
               placeholder="Restaurant / Catering Name"
               value={formData.restaurantName}
               onChange={handleChange}
-              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${errors.restaurantName ? "invalid" : ""}`}
+              className={`w-full px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-600 ${
+                errors.restaurantName ? "invalid" : ""
+              }`}
             />
 
             {showCaptcha && (
@@ -167,7 +175,9 @@ const Home = () => {
 
             <button
               type="submit"
-              className={`w-full py-2 transition duration-200 ${showCaptcha && disabled ? "captcha-button mt-4" : ""}`}
+              className={`w-full py-2 transition duration-200 ${
+                showCaptcha && disabled ? "captcha-button mt-4" : ""
+              }`}
             >
               Sign me up!
             </button>
@@ -176,7 +186,11 @@ const Home = () => {
       ) : (
         <div id="thankYouMessage" className="text-center">
           <div className="w-full">
-            <img src="koala5.jpeg" alt="Koala" className="mx-auto rounded-none mb-4 w-full md:w-1/3 h-1/3" />
+            <img
+              src="koala5.jpeg"
+              alt="Koala"
+              className="mx-auto rounded-none mb-4 w-full md:w-1/3 h-1/3"
+            />
           </div>
           <p className="text-lg">Woohoo! You're In! 🎉</p>
         </div>

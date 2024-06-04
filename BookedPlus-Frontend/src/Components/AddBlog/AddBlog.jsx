@@ -25,7 +25,7 @@ const AddBlog = () => {
   const editorRefs = useRef([]);
 
   useEffect(() => {
-    fetch("http://194.238.17.44/api/author/")
+    fetch("https://api.bookedplus.com/api/author/")
       .then((res) => res.json())
       .then((data) => {
         setAuthors(data);
@@ -56,7 +56,7 @@ const AddBlog = () => {
 
     try {
       const response = await axios.post(
-        "http://194.238.17.44/upload",
+        "https://api.bookedplus.com/upload",
         formData,
         {
           headers: {
@@ -76,7 +76,7 @@ const AddBlog = () => {
 
     try {
       const response = await axios.post(
-        "http://194.238.17.44/uploadImage",
+        "https://api.bookedplus.com/uploadImage",
         formData,
         {
           headers: {
@@ -136,7 +136,7 @@ const AddBlog = () => {
     // Make your API call here to save the newBlog data
     try {
       const response = await axios.post(
-        "http://194.238.17.44/api/blog/",
+        "https://api.bookedplus.com/api/blog/",
         newBlog
       );
 

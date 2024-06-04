@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const BlogPost = () => {
   const [blogData, setBlogData] = useState([]);
@@ -8,7 +8,7 @@ const BlogPost = () => {
   const itemsPerPage = 5; // Number of items per page
 
   const fetchBlogs = async () => {
-    const response = await fetch("http://194.238.17.44/api/blog/");
+    const response = await fetch("https://api.bookedplus.com/api/blog/");
     const data = await response.json();
     if (response.ok) {
       setBlogData(data);
@@ -22,7 +22,7 @@ const BlogPost = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://194.238.17.44/api/blog/" + e.target.value,
+      "https://api.bookedplus.com/api/blog/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -61,13 +61,22 @@ const BlogPost = () => {
             return (
               <tr key={u._id}>
                 <td>
-                  <img src={`http://194.238.17.44/${u.thumbnail}`} alt="Blog" />
+                  <img
+                    src={`https://api.bookedplus.com/${u.thumbnail}`}
+                    alt="Blog"
+                  />
                 </td>
                 <td>{u.headline}</td>
-                <td>{u.author?.firstname + ' ' + u.author?.lastname}</td>
+                <td>{u.author?.firstname + " " + u.author?.lastname}</td>
                 <td>{moment(u.createdAt).format("MMMM DD, YYYY")}</td>
                 <td>
-                  <button className="btn-delete" value={u._id} onClick={handleDelete}>Delete</button>
+                  <button
+                    className="btn-delete"
+                    value={u._id}
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             );
