@@ -15,31 +15,29 @@ const BlogDetails = () => {
   const [scrollTopBtnVisible, setScrollTopBtnVisible] = useState(false);
   const [scrolled, setScrolled] = useState(0);
 
-  const [author, setAuthor] = useState();
-  const [blogs, setBlogs] = useState([]);
+  const [author, setAuthor] = useState(null);
+  const [blogs, setBlogs] = useState(null);
+  const [audioSource, setAudioSource] = useState("");
 
+  // Fetch blogs
   useEffect(() => {
     const fetchBlogs = async () => {
       const response = await fetch(
-        "http://194.238.17.44/api/blog/" + blog_id?.split(":")[1]
+        `http://194.238.17.44/api/blog/${blog_id?.split(":")[1]}`
       );
 
       const data = await response.json();
       if (response.ok) {
         setBlogs(data);
         setAuthor(data.author);
+        if (data.audio && data.audio !== "null") {
+          const trimmedAudio = data.audio.slice(8);
+          setAudioSource(`http://194.238.17.44/uploads/${trimmedAudio}`);
+        }
       }
     };
     fetchBlogs();
   }, [blog_id]);
-
-  //   useEffect(() => {
-  //     console.log("sssBlog", blogs);
-  //   }, [blogs]);
-
-  //   useEffect(() => {
-  //     console.log("author ", author);
-  //   }, [author]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,20 +73,21 @@ const BlogDetails = () => {
       <div className="max-w-3xl mx-auto content-bg fade-in-up text-gray-900">
         <header className="mb-6 text-center">
           <h1 className="responsive-heading font-bold mb-4 text-white">
-            {blogs.headline}
+            {blogs?.headline}
           </h1>
-          <div className="flex flex-col items-center mb-4">
-            {(blogs.audio!=="null") && <p className="mb-2 text-white">Listen or read the blog:</p>}
-            {(blogs.audio!=="null") && (
-              <audio controls className="w-full">
-                <source
-                  src={`http://194.238.17.44/${blogs.audio}`}
-                  type="audio/mpeg"
-                />
-                Your browser does not support the audio element.
-              </audio>
-            )}
-          </div>
+          {blogs?.audio !== "null" && (
+            <div className="flex flex-col items-center mb-4">
+              {audioSource && (
+                <>
+                  <p className="mb-2 text-white">Listen or read the blog:</p>
+                  <audio controls className="w-full">
+                    <source src={audioSource} type="audio/mpeg" />
+                    Your browser does not support the audio element.
+                  </audio>
+                </>
+              )}
+            </div>
+          )}
           <div className="flex items-center justify-center mb-4">
             <img
               src={`http://194.238.17.44/${author?.image}`}
@@ -100,14 +99,14 @@ const BlogDetails = () => {
                 {author?.firstname + " " + author?.lastname}
               </p>
               <p className="text-gray-400">
-                {moment(blogs.createdAt).format("MMMM DD, YYYY")}
+                {moment(blogs?.createdAt).format("MMMM DD, YYYY")}
               </p>
             </div>
           </div>
         </header>
 
         <section className="prose prose-lg">
-          {blogs.body?.map((u) => {
+          {blogs?.body?.map((u) => {
             return (
               <div key={u._id}>
                 {u.image && (
