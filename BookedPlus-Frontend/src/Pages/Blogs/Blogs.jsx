@@ -1,7 +1,7 @@
-import "./blog.css";
 import { useEffect, useState } from "react";
+import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom";
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import "./blog.css";
 
 const BlogCard = ({ imgSrc, title, description, link }) => (
   <div className="blog-card overflow-hidden transition transform">
@@ -26,7 +26,7 @@ const Blogs = () => {
   const blogsPerPage = 6;
 
   const fetchBlogs = async () => {
-    const response = await fetch("http://194.238.17.44/api/blog/");
+    const response = await fetch("https://api.bookedplus.com/api/blog/");
     const data = await response.json();
     if (response.ok) {
       setBlogs(data);
@@ -57,7 +57,7 @@ const Blogs = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
               {currentBlogs.map((u) => (
                 <BlogCard
-                  imgSrc={`http://194.238.17.44/${u.thumbnail}`}
+                  imgSrc={`https://api.bookedplus.com/${u.thumbnail}`}
                   title={u.thumbnailheadline}
                   description={ReactHtmlParser(u.thumbnaildesc)}
                   link={`/blogdetails/:${u._id}`}

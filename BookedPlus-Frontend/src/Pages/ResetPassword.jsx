@@ -1,25 +1,24 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const ResetPassword = () => {
   const [passChanged, setPassChanged] = useState(false);
-  const [problem,setProblem]=useState(false);
+  const [problem, setProblem] = useState(false);
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     const form = e.target;
 
-    const pass1=form.pass1.value;
-    const pass2=form.pass2.value;
+    const pass1 = form.pass1.value;
+    const pass2 = form.pass2.value;
     const data = { pass1, pass2 };
     console.log("ASDSADASDAS", data);
 
     try {
       const response = await axios.patch(
-        "http://194.238.17.44/api/admin/resetpassword",
+        "https://api.bookedplus.com/api/admin/resetpassword",
         data
       );
 
@@ -34,8 +33,6 @@ const ResetPassword = () => {
         e.target.reset();
       }
     }
-
-    
   };
   return (
     <div>
@@ -58,7 +55,9 @@ const ResetPassword = () => {
               <>
                 {problem && (
                   <>
-                    <div className="error text-center">Passwords do not match.!.</div>
+                    <div className="error text-center">
+                      Passwords do not match.!.
+                    </div>
                   </>
                 )}
                 <label className="my-4 input input-bordered flex items-center gap-2">

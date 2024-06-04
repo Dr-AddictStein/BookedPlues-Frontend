@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import "./Home.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
+import "./Home.css";
 
 // Ensure that RECAPTCHA_TOKEN is correctly imported
 const reCaptchaToken = import.meta.env.VITE_RECAPTCHA_TOKEN;
@@ -97,7 +97,7 @@ const Home = () => {
 
       try {
         const response = await axios.post(
-          "http://194.238.17.44/api/user/",
+          "https://api.bookedplus.com/api/user/",
           data
         );
 

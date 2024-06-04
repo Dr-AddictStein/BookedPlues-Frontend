@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -16,7 +15,7 @@ const ForgotPassword = () => {
   const [password, setPasword] = useState("");
 
   const [problem, setProblem] = useState(null);
-  const [mailSent,setMailSent]=useState(null);
+  const [mailSent, setMailSent] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +27,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://194.238.17.44/api/admin/forgotpassword",
+        "https://api.bookedplus.com/api/admin/forgotpassword",
         data
       );
 
@@ -40,7 +39,7 @@ const ForgotPassword = () => {
         alert("Данные уже существуют");
       } else {
         setProblem(error.response.data.error);
-        console.log("BUGSSSSS",error.response.data.error);
+        console.log("BUGSSSSS", error.response.data.error);
       }
     }
   };
@@ -56,7 +55,9 @@ const ForgotPassword = () => {
           )}
           {mailSent && (
             <>
-              <div className="error text-center">A verification mail has been sent to your Email.</div>
+              <div className="error text-center">
+                A verification mail has been sent to your Email.
+              </div>
             </>
           )}
           <label className="my-4 input input-bordered flex items-center gap-2">
