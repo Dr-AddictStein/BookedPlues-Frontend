@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const ScrollToTop = () => {
+    const location = useLocation();
     const [btnVisibility, setBtnVisibility] = useState('hidden');
     const [strokeOffset, setStrokeOffset] = useState(100);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
 
     useEffect(() => {
         const handleScroll = () => {
