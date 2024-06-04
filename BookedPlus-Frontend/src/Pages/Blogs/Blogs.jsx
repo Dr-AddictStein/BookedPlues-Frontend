@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { Link } from "react-router-dom";
 import "./blog.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const BlogCard = ({ imgSrc, title, description, link }) => (
   <div className="blog-card overflow-hidden transition transform">
@@ -34,9 +35,19 @@ const Blogs = () => {
     }
   };
 
+  const [loader, setLoader] = useState(false);
+
   useEffect(() => {
+    setLoader(true);
+
     fetchBlogs();
+
+    setTimeout(()=>{
+      setLoader(false);
+    },100)
   }, []);
+
+  useEffect(() => {}, [blogs]);
 
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
@@ -48,65 +59,76 @@ const Blogs = () => {
 
   return (
     <>
-      <section className="mx-auto">
-        <div className="text-white min-h-screen flex flex-col">
-          <main className="container mx-auto text-center py-16 px-4">
-            <h1 className="text-4xl font-bold mb-8 fade-in-up">
-              Online Catering Insights
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
-              {currentBlogs.map((u) => (
-                <BlogCard
-                  imgSrc={`https://api.bookedplus.com/${u.thumbnail}`}
-                  title={u.thumbnailheadline}
-                  description={ReactHtmlParser(u.thumbnaildesc)}
-                  link={`/blogdetails/:${u._id}`}
-                  key={u._id}
-                />
-              ))}
-            </div>
+      {loader ? (
+        <div className=" h-[90vh] flex justify-center items-center">
+          <ClipLoader
+            color="#36d7b7"
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        <section className="mx-auto">
+          <div className="text-white min-h-screen flex flex-col">
+            <main className="container mx-auto text-center py-16 px-4">
+              <h1 className="text-4xl font-bold mb-8 fade-in-up">
+                Online Catering Insights
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
+                {currentBlogs.map((u) => (
+                  <BlogCard
+                    imgSrc={`https://api.bookedplus.com/${u.thumbnail}`}
+                    title={u.thumbnailheadline}
+                    description={ReactHtmlParser(u.thumbnaildesc)}
+                    link={`/blogdetails/:${u._id}`}
+                    key={u._id}
+                  />
+                ))}
+              </div>
 
-            <div className="mt-8 fade-in-up">
-              <nav aria-label="Page navigation">
-                <ul className="inline-flex -space-x-px">
-                  <li>
-                    <button
-                      onClick={() => paginate(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
-                    >
-                      Previous
-                    </button>
-                  </li>
-                  {[...Array(totalPages)].map((_, index) => (
-                    <li key={index}>
+              <div className="mt-8 fade-in-up">
+                <nav aria-label="Page navigation">
+                  <ul className="inline-flex -space-x-px">
+                    <li>
                       <button
-                        onClick={() => paginate(index + 1)}
-                        className={`px-3 py-2 leading-tight ${
-                          currentPage === index + 1
-                            ? "text-white bg-blue-600"
-                            : "text-gray-500 bg-white"
-                        } border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                        onClick={() => paginate(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
                       >
-                        {index + 1}
+                        Previous
                       </button>
                     </li>
-                  ))}
-                  <li>
-                    <button
-                      onClick={() => paginate(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
-                    >
-                      Next
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </main>
-        </div>
-      </section>
+                    {[...Array(totalPages)].map((_, index) => (
+                      <li key={index}>
+                        <button
+                          onClick={() => paginate(index + 1)}
+                          className={`px-3 py-2 leading-tight ${
+                            currentPage === index + 1
+                              ? "text-white bg-blue-600"
+                              : "text-gray-500 bg-white"
+                          } border border-gray-300 hover:bg-gray-100 hover:text-gray-700`}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
+                    <li>
+                      <button
+                        onClick={() => paginate(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
+                      >
+                        Next
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </main>
+          </div>
+        </section>
+      )}
     </>
   );
 };
