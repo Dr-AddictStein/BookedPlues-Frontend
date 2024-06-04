@@ -74,18 +74,18 @@ const Home = () => {
       setShowCaptcha(true);
     }
   };
-
+  
   const onReCAPTCHAChange = async (captchaValue) => {
     if (captchaValue) {
       // setDisabled(false);
       setLoader(true);
-
+      
       const firstname = formData.fullName.split(" ")[0];
       const lastname = formData.fullName.split(" ")[1];
       const email = formData.email;
       const restaurant = formData.restaurantName;
       const phone = formData.phoneNumber;
-
+      
       const data = {
         firstname,
         lastname,
@@ -94,7 +94,8 @@ const Home = () => {
         phone,
         // captcha: captchaValue,
       };
-
+      
+      setShowThankYouMessage(true);
       try {
         const response = await axios.post(
           "https://api.bookedplus.com/api/user/",
@@ -102,8 +103,8 @@ const Home = () => {
         );
 
         console.log("Form submitted successfully!", response.data);
-        setShowThankYouMessage(true);
       } catch (error) {
+        setShowThankYouMessage(false);
         if (error.response.status === 409) {
           alert("Data already exists");
         } else {
