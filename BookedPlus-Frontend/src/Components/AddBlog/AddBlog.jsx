@@ -76,7 +76,7 @@ const AddBlog = () => {
 
     try {
       const response = await axios.post(
-        "http://194.238.17.44/api/uploadImage",
+        "http://194.238.17.44/uploadImage",
         formData,
         {
           headers: {
