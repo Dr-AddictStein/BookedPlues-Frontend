@@ -70,7 +70,7 @@ const Blogs = () => {
       {loader ? (
         <div className=" h-[90vh] flex justify-center items-center">
           <ClipLoader
-            color="#36d7b7"
+            color="#2e7de9"
             size={150}
             aria-label="Loading Spinner"
             data-testid="loader"
