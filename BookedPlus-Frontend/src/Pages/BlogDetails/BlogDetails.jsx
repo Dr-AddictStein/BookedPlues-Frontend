@@ -38,9 +38,11 @@ const BlogDetails = () => {
   }, [blog_id]);
 
   useEffect(() => {
-    setTimeout(() => {
+    console.log("SS ", blogs);
+    if (blogs !== null) {
       setLoader(false);
-    }, 100);
+      console.log("Loader Off");
+    }
   }, [blogs]);
 
   useEffect(() => {

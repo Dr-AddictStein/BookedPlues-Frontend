@@ -22,6 +22,8 @@ const BlogCard = ({ imgSrc, title, description, link }) => (
 );
 
 const Blogs = () => {
+
+  
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
@@ -37,17 +39,23 @@ const Blogs = () => {
 
   const [loader, setLoader] = useState(false);
 
+  
+  
   useEffect(() => {
     setLoader(true);
 
     fetchBlogs();
-
-    setTimeout(()=>{
-      setLoader(false);
-    },100)
+    
   }, []);
+  
+  useEffect(() => {
+    console.log("DATA:",blogs);
+    if(blogs.length>0){
 
-  useEffect(() => {}, [blogs]);
+      setLoader(false);
+      console.log("Loadd Of")
+    }
+  }, [blogs]);
 
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
