@@ -26,11 +26,11 @@ const Signup = () => {
     <div className=" flex justify-center items-center h-[80vh]">
       <div className="w-1/2">
         <form action="" onSubmit={handleSubmit} className="g">
-            {error && (
-              <>
-                <div className="error text-center">{error}</div>
-              </>
-            )}
+          {error && (
+            <>
+              <div className="error text-center">{error}</div>
+            </>
+          )}
           <label className="my-4 input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@ const Signup = () => {
             Sign Up
           </button>
 
-          <div className="mt-3 text-center">Already Signed Up.?. <Link to="/login" className="text-cyan-600 font-semibold">Log In</Link> </div>
+          <div className="mt-3 text-center">Already Signed Up..?.. <Link to="/login" className="text-cyan-600 font-semibold">Log In</Link> </div>
         </form>
       </div>
     </div>
