@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import moment from "moment";
 import axios from "axios";
+import moment from "moment";
+import { useEffect, useState } from "react";
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_token;
 const Authors = () => {
@@ -10,7 +10,7 @@ const Authors = () => {
   const itemsPerPage = 5; // Number of items per page
 
   const fetchAuthors = async () => {
-    const response = await fetch("http://localhost:4000/api/author/");
+    const response = await fetch("https://api.bookedplus.com/api/author/");
     const data = await response.json();
     if (response.ok) {
       setauthorData(data);
@@ -22,12 +22,10 @@ const Authors = () => {
     fetchAuthors();
   }, []);
 
-  
-
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:4000/api/author/" + e.target.value,
+      "https://api.bookedplus.com/api/author/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -39,20 +37,24 @@ const Authors = () => {
 
   const uploadImage = async (image) => {
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append("image", image);
 
     try {
-        const response = await axios.post('http://localhost:4000/uploadImage', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        return response.data.path; // Assuming the server returns the path of the uploaded file
+      const response = await axios.post(
+        "https://api.bookedplus.com/uploadImage",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return response.data.path; // Assuming the server returns the path of the uploaded file
     } catch (error) {
-        console.error('Error uploading image file:', error);
-        throw error;
+      console.error("Error uploading image file: sss", error);
+      throw error;
     }
-};
+  };
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -60,7 +62,7 @@ const Authors = () => {
     const thumbFile = form.thumb.files[0];
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
-    const imTemp=form.thumb.files[0];
+    const imTemp = form.thumb.files[0];
     const image = imTemp ? await uploadImage(imTemp) : null;
     const toSend = { firstname, lastname, image };
 
@@ -68,7 +70,7 @@ const Authors = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/author/",
+        "https://api.bookedplus.com/api/author/",
         toSend
       );
       console.log("Form submitted successfully!", response.data);
@@ -89,7 +91,7 @@ const Authors = () => {
     const thumbFile = form.thumb.files[0];
     const firstname = form.firstname.value;
     const lastname = form.lastname.value;
-    const imTemp=form.thumb.files[0];
+    const imTemp = form.thumb.files[0];
     const image = imTemp ? await uploadImage(imTemp) : null;
     const toSend = { firstname, lastname, image };
 
@@ -97,7 +99,7 @@ const Authors = () => {
 
     try {
       const response = await axios.patch(
-        "http://localhost:4000/api/author/" + _id,
+        "https://api.bookedplus.com/api/author/" + _id,
         toSend
       );
       console.log("Form submitted successfully!", response.data);
@@ -137,13 +139,14 @@ const Authors = () => {
           {currentItems.map((u, index) => (
             <tr key={u._id}>
               <td>
-                <img src={`http://localhost:4000/${u.image}`} alt="Author" />
+                <img
+                  src={`https://api.bookedplus.com/${u.image}`}
+                  alt="Author"
+                />
               </td>
               <td>{u.firstname}</td>
               <td>{u.lastname}</td>
-              <td>
-                {moment(u.createdAt).format("MMMM DD, YYYY h:mm:ss A z")}
-              </td>
+              <td>{moment(u.createdAt).format("MMMM DD, YYYY h:mm:ss A z")}</td>
               <td>
                 <button
                   className="btn-edit"
@@ -162,10 +165,7 @@ const Authors = () => {
                     </form>
                     <div className="form-container">
                       <h2 id="formTitle">Edit Author</h2>
-                      <form
-                        onSubmit={(e) => handleEdit(e, u._id)}
-                        className=""
-                      >
+                      <form onSubmit={(e) => handleEdit(e, u._id)} className="">
                         <div className="">
                           <div className="">
                             <label htmlFor="" className="">
@@ -336,4 +336,3 @@ const Authors = () => {
 };
 
 export default Authors;
-

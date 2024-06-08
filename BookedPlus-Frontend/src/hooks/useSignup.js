@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "./useAuthContext";
-import { Navigate, useNavigate } from "react-router-dom";
 
 export const useSignup = () => {
   const navigate = useNavigate();
@@ -18,11 +18,14 @@ export const useSignup = () => {
   const signup = async (email, password) => {
     setError(null);
 
-    const response = await fetch("http://localhost:4000/api/admin/signup", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const response = await fetch(
+      "https://api.bookedplus.com/api/admin/signup",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
     const json = await response.json();
 

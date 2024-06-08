@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const ScrollToTop = () => {
+    const location = useLocation();
     const [btnVisibility, setBtnVisibility] = useState('hidden');
     const [strokeOffset, setStrokeOffset] = useState(100);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,13 +38,13 @@ const ScrollToTop = () => {
 
     return (
         <div
-            className={`${btnVisibility} fixed cursor-pointer z-50 text-white right-10 bottom-10 p-2 rounded-full`}
+            className={`hover:bg-blue-700 transition-all ${btnVisibility} fixed cursor-pointer z-50 text-white right-3 lg:right-10 bottom-10 p-3 rounded-full bg-slate-900`}
             title="Go to top"
             onClick={handleScrollToTop}
         >
             <svg
-                width="30"
-                height="30"
+                width="25"
+                height="25"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

@@ -9,6 +9,8 @@ import UpdateBlog from "../Components/UpdateBlog/UpdateBlog";
 import PrivateRoute from "./privateRoutes";
 import Login from "../Pages/Login";
 import Signup from "../Pages/Signup";
+import ForgotPassword from "../Pages/ForgotPassword";
+import ResetPassword from "../Pages/ResetPassword";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ export const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/665d7c66148427685bf468df",
+        element: <ResetPassword />,
+      },
+      {
+        path: "/forgotPassword",
+        element: <ForgotPassword />,
       },
     ],
   },
