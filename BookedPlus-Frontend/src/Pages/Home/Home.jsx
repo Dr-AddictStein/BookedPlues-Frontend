@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 // Ensure that RECAPTCHA_TOKEN is correctly imported
-const reCaptchaToken = "6LckHO8pAAAAAD7nnbEGgWBcjHhOJ-8M-DfpsyRX";
+const reCaptchaToken = "6Ld3__gpAAAAAEuFuBpuQfMlq4UHevWL9WZxRZ4g";
 console.log("🚀 ~ reCaptchaToken:", reCaptchaToken);
 
 const Home = () => {
