@@ -10,7 +10,7 @@ const Authors = () => {
   const itemsPerPage = 5; // Number of items per page
 
   const fetchAuthors = async () => {
-    const response = await fetch("http://localhost:4000/api/author/");
+    const response = await fetch("https://api.bookedplus.com/api/author/");
     const data = await response.json();
     if (response.ok) {
       setauthorData(data);
@@ -25,7 +25,7 @@ const Authors = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:4000/api/author/" + e.target.value,
+      "https://api.bookedplus.com/api/author/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -41,7 +41,7 @@ const Authors = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/uploadImage",
+        "https://api.bookedplus.com/uploadImage",
         formData,
         {
           headers: {
@@ -70,7 +70,7 @@ const Authors = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/author/",
+        "https://api.bookedplus.com/api/author/",
         toSend
       );
       console.log("Form submitted successfully!", response.data);
@@ -99,7 +99,7 @@ const Authors = () => {
 
     try {
       const response = await axios.patch(
-        "http://localhost:4000/api/author/" + _id,
+        "https://api.bookedplus.com/api/author/" + _id,
         toSend
       );
       console.log("Form submitted successfully!", response.data);
@@ -140,7 +140,7 @@ const Authors = () => {
             <tr key={u._id}>
               <td>
                 <img
-                  src={`http://localhost:4000/${u.image}`}
+                  src={`https://api.bookedplus.com/${u.image}`}
                   alt="Author"
                 />
               </td>

@@ -19,7 +19,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.patch(
-        "http://localhost:4000/api/admin/resetpassword",
+        "https://api.bookedplus.com/api/admin/resetpassword",
         data
       );
 

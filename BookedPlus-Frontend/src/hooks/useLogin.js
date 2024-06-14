@@ -18,7 +18,7 @@ export const useLogin = () => {
   const login = async (email, password) => {
     setError(null);
 
-    const response = await fetch("http://localhost:4000/api/admin/login", {
+    const response = await fetch("https://api.bookedplus.com/api/admin/login", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email, password }),

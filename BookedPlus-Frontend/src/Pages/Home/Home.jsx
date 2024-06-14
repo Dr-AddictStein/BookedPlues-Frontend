@@ -98,7 +98,7 @@ const Home = () => {
       setShowThankYouMessage(true);
       try {
         const response = await axios.post(
-          "http://localhost:4000/api/user/",
+          "https://api.bookedplus.com/api/user/",
           data
         );
 
