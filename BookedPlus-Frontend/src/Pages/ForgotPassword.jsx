@@ -21,8 +21,9 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     const email = e.target.email.value;
+    const OTP = Date.now().toString();
 
-    const data = { email };
+    const data = { email, OTP };
     console.log("ASDSADASDAS", data);
 
     try {
@@ -79,15 +80,15 @@ const ForgotPassword = () => {
           </label>
 
           <button className="btn btn-primary bg-teal-600 text-white text-center w-full">
-            Log In
+            Get OTP through Mail
           </button>
 
-          <div className="mt-3 text-center">
+          {/* <div className="mt-3 text-center">
             Not Signed Up yet.?.{" "}
             <Link to="/signup" className="text-cyan-600 font-semibold">
               Sign Up
             </Link>{" "}
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
