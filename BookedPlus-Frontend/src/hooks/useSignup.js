@@ -19,7 +19,7 @@ export const useSignup = () => {
     setError(null);
 
     const response = await fetch(
-      "https://api.bookedplus.com/api/admin/signup",
+      "http://localhost:4000/api/admin/signup",
       {
         method: "POST",
         headers: { "content-type": "application/json" },

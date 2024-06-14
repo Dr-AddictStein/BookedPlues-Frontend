@@ -27,7 +27,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "https://api.bookedplus.com/api/admin/forgotpassword",
+        "http://localhost:4000/api/admin/forgotpassword",
         data
       );
 

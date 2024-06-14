@@ -8,7 +8,7 @@ const BlogPost = () => {
   const itemsPerPage = 5; // Number of items per page
 
   const fetchBlogs = async () => {
-    const response = await fetch("https://api.bookedplus.com/api/blog/");
+    const response = await fetch("http://localhost:4000/api/blog/");
     const data = await response.json();
     if (response.ok) {
       setBlogData(data);
@@ -22,7 +22,7 @@ const BlogPost = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "https://api.bookedplus.com/api/blog/" + e.target.value,
+      "http://localhost:4000/api/blog/" + e.target.value,
       {
         method: "DELETE",
       }
@@ -62,7 +62,7 @@ const BlogPost = () => {
               <tr key={u._id}>
                 <td>
                   <img
-                    src={`https://api.bookedplus.com/${u.thumbnail}`}
+                    src={`http://localhost:4000/${u.thumbnail}`}
                     alt="Blog"
                   />
                 </td>

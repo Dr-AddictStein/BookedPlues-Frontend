@@ -21,7 +21,7 @@ const BlogDetails = () => {
     setLoader(true);
     const fetchBlogs = async () => {
       const response = await fetch(
-        `https://api.bookedplus.com/api/blog/${blog_id?.split(":")[1]}`
+        `http://localhost:4000/api/blog/${blog_id?.split(":")[1]}`
       );
 
       const data = await response.json();
@@ -30,7 +30,7 @@ const BlogDetails = () => {
         setAuthor(data.author);
         if (data.audio && data.audio !== "null") {
           const trimmedAudio = data.audio.slice(8);
-          setAudioSource(`https://api.bookedplus.com/uploads/${trimmedAudio}`);
+          setAudioSource(`http://localhost:4000/uploads/${trimmedAudio}`);
         }
       }
     };
@@ -109,7 +109,7 @@ const BlogDetails = () => {
               )}
               <div className="flex items-center justify-center mb-4">
                 <img
-                  src={`https://api.bookedplus.com/${author?.image}`}
+                  src={`http://localhost:4000/${author?.image}`}
                   alt="Author Image"
                   className="w-16 h-16 rounded-full mr-4"
                 />
@@ -131,7 +131,7 @@ const BlogDetails = () => {
                     {u.image && (
                       <div className="my-6">
                         <img
-                          src={`https://api.bookedplus.com/${u.image}`}
+                          src={`http://localhost:4000/${u.image}`}
                           alt="Example Image 1"
                           className="w-full h-64 object-cover rounded-lg shadow-lg"
                         />

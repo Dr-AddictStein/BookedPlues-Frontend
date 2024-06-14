@@ -22,14 +22,12 @@ const BlogCard = ({ imgSrc, title, description, link }) => (
 );
 
 const Blogs = () => {
-
-  
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 6;
 
   const fetchBlogs = async () => {
-    const response = await fetch("https://api.bookedplus.com/api/blog/");
+    const response = await fetch("http://localhost:4000/api/blog/");
     const data = await response.json();
     if (response.ok) {
       setBlogs(data);
@@ -39,21 +37,16 @@ const Blogs = () => {
 
   const [loader, setLoader] = useState(false);
 
-  
-  
   useEffect(() => {
     setLoader(true);
-
     fetchBlogs();
-    
   }, []);
-  
-  useEffect(() => {
-    console.log("DATA:",blogs);
-    if(blogs.length>0){
 
+  useEffect(() => {
+    console.log("DATA:", blogs);
+    if (blogs.length > 0) {
       setLoader(false);
-      console.log("Loadd Of")
+      console.log("Loadd Off");
     }
   }, [blogs]);
 
@@ -63,7 +56,13 @@ const Blogs = () => {
 
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  useEffect(()=>{
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top with smooth behavior
+  },[currentPage])
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
@@ -86,7 +85,7 @@ const Blogs = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
                 {currentBlogs.map((u) => (
                   <BlogCard
-                    imgSrc={`https://api.bookedplus.com/${u.thumbnail}`}
+                    imgSrc={`http://localhost:4000/${u.thumbnail}`}
                     title={u.thumbnailheadline}
                     description={ReactHtmlParser(u.thumbnaildesc)}
                     link={`/blogdetails/:${u._id}`}
@@ -100,7 +99,11 @@ const Blogs = () => {
                   <ul className="inline-flex -space-x-px">
                     <li>
                       <button
-                        onClick={() => paginate(currentPage - 1)}
+                        onClick={() => {
+                          if (currentPage > 1) {
+                            paginate(currentPage - 1);
+                          }
+                        }}
                         disabled={currentPage === 1}
                         className="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
                       >
@@ -123,7 +126,11 @@ const Blogs = () => {
                     ))}
                     <li>
                       <button
-                        onClick={() => paginate(currentPage + 1)}
+                        onClick={() => {
+                          if (currentPage < totalPages) {
+                            paginate(currentPage + 1);
+                          }
+                        }}
                         disabled={currentPage === totalPages}
                         className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
                       >

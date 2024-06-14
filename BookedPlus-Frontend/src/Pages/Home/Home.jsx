@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 // Ensure that RECAPTCHA_TOKEN is correctly imported
-const reCaptchaToken = import.meta.env.VITE_RECAPTCHA_TOKEN;
+const reCaptchaToken = "6LckHO8pAAAAAD7nnbEGgWBcjHhOJ-8M-DfpsyRX";
 console.log("🚀 ~ reCaptchaToken:", reCaptchaToken);
 
 const Home = () => {
@@ -98,7 +98,7 @@ const Home = () => {
       setShowThankYouMessage(true);
       try {
         const response = await axios.post(
-          "https://api.bookedplus.com/api/user/",
+          "http://localhost:4000/api/user/",
           data
         );
 
