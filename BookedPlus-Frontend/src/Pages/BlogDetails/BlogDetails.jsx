@@ -144,7 +144,7 @@ const BlogDetails = () => {
                     )}
                     <div className="  bg-opacity-50 text-white  rounded-b-lg ">
                       <p
-                        className="text-sm bg-transparent text-[17px]"
+                        className="text-sm bg-transparent text-[17.5px]"
                         style={{ lineHeight: "1.75" }}
                       >
                         {ReactHtmlParser(u.desc)}

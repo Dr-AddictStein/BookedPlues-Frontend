@@ -54,7 +54,7 @@ footer {
 }
 @media (min-width: 640px) {
   .responsive-heading {
-    font-size: 3rem;
+    font-size: 44px;
   }
 }
 #scrollTopBtn {
